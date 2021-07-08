@@ -2,10 +2,10 @@
 ### JavaScript Calculator
 
 ### Roles
-* Overall Project Manager:
-* Coding Manager:
-* Testing Manager:
-* Documentation:
+* Overall Project Manager: Drew Jackson
+* Coding Manager: Hongda Lin
+* Testing Manager: Sam Gernstetter
+* Documentation: Madison Graziani
 
 ### Contributions
 Please list who did what for each part of the project.
