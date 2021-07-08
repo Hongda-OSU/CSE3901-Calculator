@@ -48,5 +48,12 @@ button {
 /* Created by Hongda Lin (7/7/2021) */
 /* calculator button effects */
 button:hover{
-  background-color: darkgray;
+  background-color: gainsboro;
+}
+
+/* Created by Hongda Lin (7/7/2021) */
+/* calculator button effects */
+button:active {
+  box-shadow: inset -2px -2px 3px rgba(255, 255, 255, .6),
+  inset 2px 2px 3px rgba(0, 0, 0, .6);
 }
