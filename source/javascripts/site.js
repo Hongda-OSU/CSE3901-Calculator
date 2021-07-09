@@ -109,20 +109,20 @@ operators.namedItem("divide").addEventListener("click", division, false);
 /*
     Object holding stored value in memory
  */
-/*const memory = {
+const memory = {
     digits: 0
-}*/
+}
 
 //Listeners for each memory button
 
-/*let ms = document.getElementById("ms");
+let ms = document.getElementById("ms");
 ms.addEventListener("click", memory_store(memory), false);
 
 let mr = document.getElementById('mr');
 mr.addEventListener("click", memory_recall, false);
 
 let mplus = document.getElementById("mplus");
-mplus.addEventListener("click", memory_add, false);*/
+mplus.addEventListener("click", memory_add, false);
 
 //TODO add buttons
 
