@@ -19,6 +19,15 @@ for(var i=0; i < digits.length; i++){
     digits[i].addEventListener("click", updateDigits, false);
 }
 
+let operator = document.getElementsByClassName("operator");
+for(var i=0; i<operator.length; i++){
+    operator[i].addEventListener("click", updateOperators, false);
+}
+
+function updateOperators(){
+
+}
+
 //Created on ___ by Hongda Lin
 //Edited by Madison Graziani on 7/9/21
 //   -Added ability to display multiple digits (up to 10)
@@ -27,7 +36,6 @@ for(var i=0; i < digits.length; i++){
 function updateDigits(){
     var newVal;
     var currVal = document.getElementsByClassName("calculator_display")[0].innerHTML;
-    if (currVal.length < 11){
         if(currVal !== "0") {
             newVal = currVal + this.value;
             newVal = Array.from(newVal);
@@ -42,23 +50,54 @@ function updateDigits(){
         else{
             document.getElementsByClassName("calculator_display")[0].innerHTML = this.value;
         }
-    }
 }
 
 
 /* Created 7/8/21 by Samuel Gernstetter */
-function addition() {
+var num1 = 0;
+var num2 = undefined;
+var currentOperator = "none";
 
+function process(nextOperator) {
+    let result = 0;
+    switch (currentOperator) {
+        case "addition":
+            result = num1 + num2;
+            break;
+        case "subtraction":
+            result = num1 - num2;
+            break;
+        case "multiplication":
+            result = num1 * num2;
+            break;
+        case "division":
+            if (num2 != 0) {
+                result = num1 / num2;
+            } else {
+                document.getElementsByClassName("calculator_display")[0].innerHTML = "Cannot divide by zero";
+            }
+            break;
+        default:
+    }
+    currentOperator = nextOperator;
+}
+function addition() {
+    console.log(this.id);
+    process("addition");
 }
 function subtraction() {
-
+    console.log(this.id);
+    process("subtraction");
 }
 function multiplication() {
-
+    console.log(this.id);
+    process("multiplication");
 }
 function division() {
-
+    console.log(this.id);
+    process("division");
 }
+
 let plus = document.getElementById("plus")
 plus.addEventListener("click", addition, false)
 let minus = document.getElementById("minus")
@@ -67,6 +106,13 @@ let times = document.getElementById("times")
 times.addEventListener("click", multiplication, false)
 let divide = document.getElementById("divide")
 divide.addEventListener("click", division, false)
+
+
+operators = document.getElementsByClassName("operator");
+operators.namedItem("plus").addEventListener("click", addition, false);
+operators.namedItem("minus").addEventListener("click", subtraction, false);
+operators.namedItem("times").addEventListener("click", multiplication, false);
+operators.namedItem("divide").addEventListener("click", division, false);
 
 /*Created by Drew Jackson 7/9/21*/
 /*
