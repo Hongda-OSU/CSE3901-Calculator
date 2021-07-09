@@ -19,6 +19,15 @@ for(var i=0; i < digits.length; i++){
     digits[i].addEventListener("click", updateDigits, false);
 }
 
+let operator = document.getElementsByClassName("operator");
+for(var i=0; i<operator.length; i++){
+    operator[i].addEventListener("click", updateOperators, false);
+}
+
+function updateOperators(){
+
+}
+
 //Created on ___ by Hongda Lin
 //Edited by Madison Graziani on 7/9/21
 //   -Added ability to display multiple digits (up to 10)
@@ -27,7 +36,6 @@ for(var i=0; i < digits.length; i++){
 function updateDigits(){
     var newVal;
     var currVal = document.getElementsByClassName("calculator_display")[0].innerHTML;
-    if (currVal.length < 11){
         if(currVal !== "0") {
             newVal = currVal + this.value;
             newVal = Array.from(newVal);
@@ -42,7 +50,6 @@ function updateDigits(){
         else{
             document.getElementsByClassName("calculator_display")[0].innerHTML = this.value;
         }
-    }
 }
 
 
