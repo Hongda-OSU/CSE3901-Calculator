@@ -19,14 +19,6 @@ for(var i=0; i < digits.length; i++){
     digits[i].addEventListener("click", updateDigits, false);
 }
 
-let operator = document.getElementsByClassName("operator");
-for(var i=0; i<operator.length; i++){
-    operator[i].addEventListener("click", updateOperators, false);
-}
-
-function updateOperators(){
-
-}
 
 
 //Created on ___ by Hongda Lin
@@ -55,51 +47,157 @@ function updateDigits(){
 
 
 /* Created 7/8/21 by Samuel Gernstetter */
-var num1 = 0;
+var num1 = undefined;
 var num2 = undefined;
 var currentOperator = "none";
 
-function process(nextOperator) {
-    let result = 0;
+function process() {
     switch (currentOperator) {
         case "addition":
-            result = num1 + num2;
+            num1 = num1 + num2;
             break;
         case "subtraction":
-            result = num1 - num2;
+            num1 = num1 - num2;
             break;
         case "multiplication":
-            result = num1 * num2;
+            num1 = num1 * num2;
             break;
         case "division":
             if (num2 != 0) {
-                result = num1 / num2;
+                num1 = num1 / num2;
             } else {
                 document.getElementsByClassName("calculator_display")[0].innerHTML = "Cannot divide by zero";
             }
             break;
         default:
     }
-    currentOperator = nextOperator;
+    num2 = undefined;
 }
 function addition() {
     console.log(this.id);
-    process("addition");
+    if (num1 !== undefined) {
+        num2 = document.getElementsByClassName("calculator_display")[0].innerHTML;
+        process();
+    } else {
+        num1 = document.getElementsByClassName("calculator_display")[0].innerHTML;
+    }
+    currentOperator = "addition"
 }
 function subtraction() {
     console.log(this.id);
-    process("subtraction");
+    if (num1 !== undefined) {
+        num2 = document.getElementsByClassName("calculator_display")[0].innerHTML;
+        process();
+    } else {
+        num1 = document.getElementsByClassName("calculator_display")[0].innerHTML;
+    }
+    currentOperator = "subtraction"
 }
 function multiplication() {
     console.log(this.id);
-    process("multiplication");
+    if (num1 !== undefined) {
+        num2 = document.getElementsByClassName("calculator_display")[0].innerHTML;
+        process();
+    } else {
+        num1 = document.getElementsByClassName("calculator_display")[0].innerHTML;
+    }
+    currentOperator = "multiplication"
 }
 function division() {
     console.log(this.id);
-    process("division");
+    if (num1 !== undefined) {
+        num2 = document.getElementsByClassName("calculator_display")[0].innerHTML;
+        process();
+    } else {
+        num1 = document.getElementsByClassName("calculator_display")[0].innerHTML;
+    }
+    currentOperator = "division"
 }
+
+let plus = document.getElementById("plus")
+plus.addEventListener("click", addition, false)
+let minus = document.getElementById("minus")
+minus.addEventListener("click", subtraction, false)
+let times = document.getElementById("times")
+times.addEventListener("click", multiplication, false)
+let divide = document.getElementById("divide")
+divide.addEventListener("click", division, false)
+
+
 operators = document.getElementsByClassName("operator");
 operators.namedItem("plus").addEventListener("click", addition, false);
 operators.namedItem("minus").addEventListener("click", subtraction, false);
 operators.namedItem("times").addEventListener("click", multiplication, false);
 operators.namedItem("divide").addEventListener("click", division, false);
+
+/*Created by Drew Jackson 7/9/21*/
+/*
+    Object holding stored value in memory
+ */
+const memory = {
+    digits: 0
+}
+
+//Listeners for each memory button
+
+let ms = document.getElementById("ms");
+ms.addEventListener("click", memory_store(memory), false);
+
+let mr = document.getElementById('mr');
+mr.addEventListener("click", memory_recall, false);
+
+let mplus = document.getElementById("mplus");
+mplus.addEventListener("click", memory_add, false);
+
+//TODO add buttons
+
+/* Not yet on calculator
+let msub = document.getElementById("msub");
+msub.addEventListener("click", memory_subtract, false);
+
+let mc = document.getElementById("mc");
+mc.addEventListener("click", memory_clear, false);
+*/
+
+//Functions for memory listeners
+
+/*
+    Store the number displayed on screen to memory
+ */
+function memory_store(memory){
+    var display = document.getElementsByClassName("calculator_display")[0].innerHTML;
+    display = display.replace(/,/g, "");
+    memory.digits = parseInt(display);
+}
+
+//TODO
+function memory_recall(memory){
+
+}
+
+/*
+    Add the number on display to number stored in memory and store result
+ */
+function memory_add(memory){
+    var display = document.getElementsByClassName("calculator_display")[0].innerHTML;
+    display = display.replace(/,/g, "");
+    var display_digits = parseInt(display)
+    memory.digits = memory.digits + display_digits;
+}
+
+/*
+    Subtract number on display from number stored in memory and store result
+ */
+function memory_subtract(memory){
+    var display = document.getElementsByClassName("calculator_display")[0].innerHTML;
+    display = display.replace(/,/g, "");
+    var display_digits = parseInt(display)
+    memory.digits = memory.digits - display_digits;
+}
+
+/*
+    Clears memory by setting to zero
+ */
+function memory_clear(memory){
+    memory.digits = 0;
+}
