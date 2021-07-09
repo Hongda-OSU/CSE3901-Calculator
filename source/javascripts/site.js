@@ -47,7 +47,11 @@ function updateDigits(){
 
 
 /* Created 7/8/21 by Samuel Gernstetter */
-function process(num1, num2 = 0, currentOperator, nextOperator) {
+var num1 = 0;
+var num2 = undefined;
+var currentOperator = "none";
+
+function process(nextOperator) {
     let result = 0;
     switch (currentOperator) {
         case "addition":
@@ -63,25 +67,28 @@ function process(num1, num2 = 0, currentOperator, nextOperator) {
             if (num2 != 0) {
                 result = num1 / num2;
             } else {
-                // print "Cannot divide by zero" into display
+                document.getElementsByClassName("calculator_display")[0].innerHTML = "Cannot divide by zero";
             }
             break;
         default:
     }
-    return nextOperator;
+    currentOperator = nextOperator;
 }
-
 function addition() {
-
+    console.log(this.id);
+    process("addition");
 }
 function subtraction() {
-
+    console.log(this.id);
+    process("subtraction");
 }
 function multiplication() {
-
+    console.log(this.id);
+    process("multiplication");
 }
 function division() {
-
+    console.log(this.id);
+    process("division");
 }
 operators = document.getElementsByClassName("operator");
 operators.namedItem("plus").addEventListener("click", addition, false);
