@@ -26,6 +26,30 @@ function updateScreen(){
 */
 
 /* Created 7/8/21 by Samuel Gernstetter */
+function process(num1, num2 = 0, currentOperator, nextOperator) {
+    let result = 0;
+    switch (currentOperator) {
+        case "addition":
+            result = num1 + num2;
+            break;
+        case "subtraction":
+            result = num1 - num2;
+            break;
+        case "multiplication":
+            result = num1 * num2;
+            break;
+        case "division":
+            if (num2 != 0) {
+                result = num1 / num2;
+            } else {
+                // print "Cannot divide by zero" into display
+            }
+            break;
+        default:
+    }
+    return nextOperator;
+}
+
 function addition() {
 
 }
