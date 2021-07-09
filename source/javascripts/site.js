@@ -11,16 +11,33 @@ document.getElementById("clear").addEventListener("click", function (){
 Definition: when user click digit button the display screen changes.
  */
 
+//Created on ___ by Hongda Lin
+//Edited 7/9/21 by Madison Graziani
+//   -Changed second parameter
 var digits = document.getElementsByClassName("digit");
 for(var i=0; i < digits.length; i++){
     digits[i].addEventListener("click", updateDigits, false);
 }
 
+//Created on ___ by Hongda Lin
+//Edited by Madison Graziani on 7/9/21
+//   -Added ability to display multiple digits (up to 10)
+//   -Added check for leading zero
+//   -Added comma separators
 function updateDigits(){
+    var newVal;
     var currVal = document.getElementsByClassName("calculator_display")[0].innerHTML;
-    if (currVal.length < 10){
+    if (currVal.length < 11){
         if(currVal !== "0") {
-            document.getElementsByClassName("calculator_display")[0].innerHTML = currVal + this.value;
+            newVal = currVal + this.value;
+            newVal = Array.from(newVal);
+            newVal = newVal.filter(function(val) {return val !== ","})
+            var index = newVal.length - 3;
+            while(index > 0){
+                newVal.splice(index, 0, ",");
+                index = index - 3;
+            }
+            document.getElementsByClassName("calculator_display")[0].innerHTML = newVal.join("");
         }
         else{
             document.getElementsByClassName("calculator_display")[0].innerHTML = this.value;
