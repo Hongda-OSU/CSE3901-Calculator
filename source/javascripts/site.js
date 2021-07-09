@@ -25,7 +25,8 @@ for(var i=0; i<operator.length; i++){
 }
 
 function updateOperators(){
-
+    if(document.getElementsByClassName("calculator_display")[0].innerHTML.)
+        document.getElementsByClassName("calculator_display")[0].innerHTML += this.value;
 }
 
 //Created on ___ by Hongda Lin
