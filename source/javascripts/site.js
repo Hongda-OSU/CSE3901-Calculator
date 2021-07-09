@@ -19,15 +19,6 @@ for(var i=0; i < digits.length; i++){
     digits[i].addEventListener("click", updateDigits, false);
 }
 
-let operator = document.getElementsByClassName("operator");
-for(var i=0; i<operator.length; i++){
-    operator[i].addEventListener("click", updateOperators, false);
-}
-
-function updateOperators(){
-
-}
-
 //Created on ___ by Hongda Lin
 //Edited by Madison Graziani on 7/9/21
 //   -Added ability to display multiple digits (up to 10)
@@ -54,48 +45,71 @@ function updateDigits(){
 
 
 /* Created 7/8/21 by Samuel Gernstetter */
-var num1 = 0;
+var num1 = undefined;
 var num2 = undefined;
 var currentOperator = "none";
 
-function process(nextOperator) {
-    let result = 0;
+function process() {
     switch (currentOperator) {
         case "addition":
-            result = num1 + num2;
+            num1 = num1 + num2;
             break;
         case "subtraction":
-            result = num1 - num2;
+            num1 = num1 - num2;
             break;
         case "multiplication":
-            result = num1 * num2;
+            num1 = num1 * num2;
             break;
         case "division":
             if (num2 != 0) {
-                result = num1 / num2;
+                num1 = num1 / num2;
             } else {
                 document.getElementsByClassName("calculator_display")[0].innerHTML = "Cannot divide by zero";
             }
             break;
         default:
     }
-    currentOperator = nextOperator;
+    num2 = undefined;
 }
 function addition() {
     console.log(this.id);
-    process("addition");
+    if (num1 !== undefined) {
+        num2 = document.getElementsByClassName("calculator_display")[0].innerHTML;
+        process();
+    } else {
+        num1 = document.getElementsByClassName("calculator_display")[0].innerHTML;
+    }
+    currentOperator = "addition"
 }
 function subtraction() {
     console.log(this.id);
-    process("subtraction");
+    if (num1 !== undefined) {
+        num2 = document.getElementsByClassName("calculator_display")[0].innerHTML;
+        process();
+    } else {
+        num1 = document.getElementsByClassName("calculator_display")[0].innerHTML;
+    }
+    currentOperator = "subtraction"
 }
 function multiplication() {
     console.log(this.id);
-    process("multiplication");
+    if (num1 !== undefined) {
+        num2 = document.getElementsByClassName("calculator_display")[0].innerHTML;
+        process();
+    } else {
+        num1 = document.getElementsByClassName("calculator_display")[0].innerHTML;
+    }
+    currentOperator = "multiplication"
 }
 function division() {
     console.log(this.id);
-    process("division");
+    if (num1 !== undefined) {
+        num2 = document.getElementsByClassName("calculator_display")[0].innerHTML;
+        process();
+    } else {
+        num1 = document.getElementsByClassName("calculator_display")[0].innerHTML;
+    }
+    currentOperator = "division"
 }
 operators = document.getElementsByClassName("operator");
 operators.namedItem("plus").addEventListener("click", addition, false);
