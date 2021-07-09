@@ -111,8 +111,91 @@ function division() {
     }
     currentOperator = "division"
 }
+
+let plus = document.getElementById("plus")
+plus.addEventListener("click", addition, false)
+let minus = document.getElementById("minus")
+minus.addEventListener("click", subtraction, false)
+let times = document.getElementById("times")
+times.addEventListener("click", multiplication, false)
+let divide = document.getElementById("divide")
+divide.addEventListener("click", division, false)
+
+
 operators = document.getElementsByClassName("operator");
 operators.namedItem("plus").addEventListener("click", addition, false);
 operators.namedItem("minus").addEventListener("click", subtraction, false);
 operators.namedItem("times").addEventListener("click", multiplication, false);
 operators.namedItem("divide").addEventListener("click", division, false);
+
+/*Created by Drew Jackson 7/9/21*/
+/*
+    Object holding stored value in memory
+ */
+const memory = {
+    digits: 0
+}
+
+//Listeners for each memory button
+
+let ms = document.getElementById("ms");
+ms.addEventListener("click", memory_store(memory), false);
+
+let mr = document.getElementById('mr');
+mr.addEventListener("click", memory_recall, false);
+
+let mplus = document.getElementById("mplus");
+mplus.addEventListener("click", memory_add, false);
+
+//TODO add buttons
+
+/* Not yet on calculator
+let msub = document.getElementById("msub");
+msub.addEventListener("click", memory_subtract, false);
+
+let mc = document.getElementById("mc");
+mc.addEventListener("click", memory_clear, false);
+*/
+
+//Functions for memory listeners
+
+/*
+    Store the number displayed on screen to memory
+ */
+function memory_store(memory){
+    var display = document.getElementsByClassName("calculator_display")[0].innerHTML;
+    display = display.replace(/,/g, "");
+    memory.digits = parseInt(display);
+}
+
+//TODO
+function memory_recall(memory){
+
+}
+
+/*
+    Add the number on display to number stored in memory and store result
+ */
+function memory_add(memory){
+    var display = document.getElementsByClassName("calculator_display")[0].innerHTML;
+    display = display.replace(/,/g, "");
+    var display_digits = parseInt(display)
+    memory.digits = memory.digits + display_digits;
+}
+
+/*
+    Subtract number on display from number stored in memory and store result
+ */
+function memory_subtract(memory){
+    var display = document.getElementsByClassName("calculator_display")[0].innerHTML;
+    display = display.replace(/,/g, "");
+    var display_digits = parseInt(display)
+    memory.digits = memory.digits - display_digits;
+}
+
+/*
+    Clears memory by setting to zero
+ */
+function memory_clear(memory){
+    memory.digits = 0;
+}
