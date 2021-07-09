@@ -3,7 +3,6 @@ title: Simple Calculator
 ---
 <!-- Created by Hongda Lin (7/7/2021) -->
 <body>
-
     <div class="calculator">
       <div class="calculator_display" name="display">0</div>
       <div class="calculator_keys">
@@ -20,7 +19,7 @@ title: Simple Calculator
               <td><button name="operator" value="&percnt">&percnt;</button></td>
               <td><button name="operator" value="x&sup2">x&sup2;</button></td>
               <td><button name="operator" value="&radic">&radic;</button></td>
-              <td><button name="digit" value="&pi;">&pi;</button></td>
+              <td><button name="special" value="&pi;">&pi;</button></td>
               <td><button name="operator" value="&divide">&divide;</button></td>
             </tr>
             <tr class="row" id="3rd_row">
@@ -34,26 +33,25 @@ title: Simple Calculator
               <td><button name="digit" value="4">4</button></td>
               <td><button name="digit" value="5">5</button></td>
               <td><button name="digit" value="6">6</button></td>
-              <td><button name="operator" value="POS">POS</button></td>
+              <td><button name="sign" value="POS">POS</button></td>
               <td><button name="operator" value="-">-</button></td>
             </tr>
             <tr class="row" id="5th_row">
               <td><button name="digit" value="1">1</button></td>
               <td><button name="digit" value="2">2</button></td>
               <td><button name="digit" value="3">3</button></td>
-              <td><button name="operator" value="NEG">NEG</button></td>
+              <td><button name="sign" value="NEG">NEG</button></td>
               <td><button name="operator" value="+">+</button></td>
             </tr>
           <tr class="row" id="6th_row">
-            <td><button name="operator" value=".">.</button></td>
+            <td><button name="decimal" value=".">.</button></td>
             <td><button name="digit" value="0">0</button></td>
-            <td><button name="operator" value="C">C</button></td>
-            <td><button name="operator" value="CE">CE</button></td>
-            <td><button name="operator" value="=">=</button></td>
+            <td><button name="clear" value="C">C</button></td>
+            <td><button name="clear" value="CE">CE</button></td>
+            <td><button name="equal" value="=">=</button></td>
           </tr>
           </tbody>
         </table>
       </div>
     </div>
-
 </body>
