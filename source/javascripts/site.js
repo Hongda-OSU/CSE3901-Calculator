@@ -21,6 +21,25 @@ document.getElementById("clear").addEventListener("click", function (){
 /*
 Definition: when user click digit button the display screen changes.
  */
+
+var digits = document.getElementsByClassName("digit");
+for(var i=0; digits.length; i++){
+    digits[i].addEventListener("click", updateDigits, false);
+}
+
+function updateDigits(){
+    var currVal = document.getElementsByClassName("calculator_display")[0].innerHTML;
+    if (currVal.length < 10){
+        if(currVal !== "0") {
+            document.getElementsByClassName("calculator_display")[0].innerHTML = currVal + this.value;
+        }
+        else{
+            document.getElementsByClassName("calculator_display")[0].innerHTML = this.value;
+        }
+    }
+}
+
+/*
 let digits = document.getElementsByClassName("digit");
 for(var i=0; i<digits.length; i++){
     digits[i].addEventListener("click",updateScreen, false);
@@ -34,6 +53,7 @@ function updateScreen(){
         document.getElementsByClassName("calculator_display")[0].innerHTML = current + this.value;
     }
 }
+*/
 
 
 /* Created 7/8/21 by Samuel Gernstetter */
