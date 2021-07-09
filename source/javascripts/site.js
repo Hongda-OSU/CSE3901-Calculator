@@ -50,3 +50,6 @@ let times = document.getElementById("times")
 times.addEventListener("click", multiplication, false)
 let divide = document.getElementById("divide")
 divide.addEventListener("click", division, false)
+
+/*Created by Drew Jackson 7/9/21*/
+
