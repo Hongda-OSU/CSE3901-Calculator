@@ -50,77 +50,54 @@ var num2 = undefined;
 var currentOperator = "none";
 
 function process() {
-    switch (currentOperator) {
-        case "addition":
-            num1 = num1 + num2;
-            break;
-        case "subtraction":
-            num1 = num1 - num2;
-            break;
-        case "multiplication":
-            num1 = num1 * num2;
-            break;
-        case "division":
-            if (num2 != 0) {
-                num1 = num1 / num2;
-            } else {
-                document.getElementsByClassName("calculator_display")[0].innerHTML = "Cannot divide by zero";
-            }
-            break;
-        default:
+    if (num1 !== undefined) {
+        num2 = parseInt(document.getElementsByClassName("calculator_display")[0].innerHTML);
+        let outputIsNum = true;
+        switch (currentOperator) {
+            case "addition":
+                num1 = num1 + num2;
+                break;
+            case "subtraction":
+                num1 = num1 - num2;
+                break;
+            case "multiplication":
+                num1 = num1 * num2;
+                break;
+            case "division":
+                if (num2 != 0) {
+                    num1 = num1 / num2;
+                } else {
+                    document.getElementsByClassName("calculator_display")[0].innerHTML = "Cannot divide by zero";
+                    outputIsNum = false;
+                }
+                break;
+            default:
+        }
+        if (outputIsNum) {
+            document.getElementsByClassName("calculator_display")[0].innerHTML = num1;
+        }
+        num2 = undefined;
+    } else {
+        num1 = parseInt(document.getElementsByClassName("calculator_display")[0].innerHTML);
+        document.getElementsByClassName("calculator_display")[0].innerHTML = "0";
     }
-    num2 = undefined;
 }
 function addition() {
-    console.log(this.id);
-    if (num1 !== undefined) {
-        num2 = document.getElementsByClassName("calculator_display")[0].innerHTML;
-        process();
-    } else {
-        num1 = document.getElementsByClassName("calculator_display")[0].innerHTML;
-    }
-    currentOperator = "addition"
+    process();
+    currentOperator = "addition";
 }
 function subtraction() {
-    console.log(this.id);
-    if (num1 !== undefined) {
-        num2 = document.getElementsByClassName("calculator_display")[0].innerHTML;
-        process();
-    } else {
-        num1 = document.getElementsByClassName("calculator_display")[0].innerHTML;
-    }
-    currentOperator = "subtraction"
+    process();
+    currentOperator = "subtraction";
 }
 function multiplication() {
-    console.log(this.id);
-    if (num1 !== undefined) {
-        num2 = document.getElementsByClassName("calculator_display")[0].innerHTML;
-        process();
-    } else {
-        num1 = document.getElementsByClassName("calculator_display")[0].innerHTML;
-    }
-    currentOperator = "multiplication"
+    process();
+    currentOperator = "multiplication";
 }
 function division() {
-    console.log(this.id);
-    if (num1 !== undefined) {
-        num2 = document.getElementsByClassName("calculator_display")[0].innerHTML;
-        process();
-    } else {
-        num1 = document.getElementsByClassName("calculator_display")[0].innerHTML;
-    }
-    currentOperator = "division"
+    process();
+    currentOperator = "division";
 }
-
-let plus = document.getElementById("plus")
-plus.addEventListener("click", addition, false)
-let minus = document.getElementById("minus")
-minus.addEventListener("click", subtraction, false)
-let times = document.getElementById("times")
-times.addEventListener("click", multiplication, false)
-let divide = document.getElementById("divide")
-divide.addEventListener("click", division, false)
-
 
 operators = document.getElementsByClassName("operator");
 operators.namedItem("plus").addEventListener("click", addition, false);
@@ -132,20 +109,20 @@ operators.namedItem("divide").addEventListener("click", division, false);
 /*
     Object holding stored value in memory
  */
-const memory = {
+/*const memory = {
     digits: 0
-}
+}*/
 
 //Listeners for each memory button
 
-let ms = document.getElementById("ms");
+/*let ms = document.getElementById("ms");
 ms.addEventListener("click", memory_store(memory), false);
 
 let mr = document.getElementById('mr');
 mr.addEventListener("click", memory_recall, false);
 
 let mplus = document.getElementById("mplus");
-mplus.addEventListener("click", memory_add, false);
+mplus.addEventListener("click", memory_add, false);*/
 
 //TODO add buttons
 
