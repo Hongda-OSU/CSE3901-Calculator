@@ -3,45 +3,57 @@ title: Simple Calculator
 ---
 <!-- Created by Hongda Lin (7/7/2021) -->
 <body>
-  <div class="container">
+
     <div class="calculator">
-      <div class="calculator_display">0</div>
+      <div class="calculator_display" name="display">0</div>
       <div class="calculator_keys">
         <table>
           <tbody>
             <tr class="row" id="1st_row">
-              <td><button class="memory" id="ms" value="MS">MS</button></td>
-              <td><button class="memory" id="mr" value="MR">MR</button></td>
-              <td><button class="memory" id="m+" value="M+">M+</button></td>
-              <td><button class="operator" id="plus" value="+">+</button></td>
+              <td><input type="button" name="memory" value="MC"></td>
+              <td><input type="button" name="memory" value="MR"></td>
+              <td><input type="button" name="memory" value="M+"></td>
+              <td><input type="button" name="memory" value="M-"></td>
+              <td><input type="button" name="memory" value="MS"></td>
             </tr>
             <tr class="row" id="2nd_row">
-              <td><button class="digit" id="seven" value="7">7</button></td>
-              <td><button class="digit" id="eight" value="8">8</button></td>
-              <td><button class="digit" id="nine" value="9">9</button></td>
-              <td><button class="operator" id="minus" value="-">-</button></td>
+              <td><button name="operator" value="&percnt">&percnt;</button></td>
+              <td><button name="operator" value="x&sup2">x&sup2;</button></td>
+              <td><button name="operator" value="&radic">&radic;</button></td>
+              <td><button name="digit" value="&pi;">&pi;</button></td>
+              <td><button name="operator" value="&divide">&divide;</button></td>
             </tr>
             <tr class="row" id="3rd_row">
-              <td><button class="digit" id="four" value="4">4</button></td>
-              <td><button class="digit" id="five" value="5">5</button></td>
-              <td><button class="digit" id="six" value="6">6</button></td>
-              <td><button class="operator" id="times" value="&times">&times;</button></td>
+              <td><button name="digit" value="7">7</button></td>
+              <td><button name="digit" value="8">8</button></td>
+              <td><button name="digit" value="9">9</button></td>
+              <td><button name="operator" value="DEL">DEL</button></td>
+              <td><button name="operator" value="&times">&times;</button></td>
             </tr>
             <tr class="row" id="4th_row">
-              <td><button class="digit" id="one" value="1">1</button></td>
-              <td><button class="digit" id="two" value="2">2</button></td>
-              <td><button class="digit" id="three" value="3">3</button></td>
-              <td><button class="operator" id="divide" value="&divide">&divide;</button></td>
+              <td><button name="digit" value="4">4</button></td>
+              <td><button name="digit" value="5">5</button></td>
+              <td><button name="digit" value="6">6</button></td>
+              <td><button name="operator" value="POS">POS</button></td>
+              <td><button name="operator" value="-">-</button></td>
             </tr>
             <tr class="row" id="5th_row">
-              <td><button class="digit" id="zero" value="0">0</button></td>
-              <td><button class="operator" id="period" value=".">.</button></td>
-              <td><button class="operator" id="clear" value="AC">AC</button></td>
-              <td><button class="operator" id="result" value="=">=</button></td>
+              <td><button name="digit" value="1">1</button></td>
+              <td><button name="digit" value="2">2</button></td>
+              <td><button name="digit" value="3">3</button></td>
+              <td><button name="operator" value="NEG">NEG</button></td>
+              <td><button name="operator" value="+">+</button></td>
             </tr>
+          <tr class="row" id="6th_row">
+            <td><button name="operator" value=".">.</button></td>
+            <td><button name="digit" value="0">0</button></td>
+            <td><button name="operator" value="C">C</button></td>
+            <td><button name="operator" value="CE">CE</button></td>
+            <td><button name="operator" value="=">=</button></td>
+          </tr>
           </tbody>
         </table>
       </div>
     </div>
-  </div>
+
 </body>
