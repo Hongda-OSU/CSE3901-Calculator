@@ -118,20 +118,17 @@ operators.namedItem("divide").addEventListener("click", division, false);
 /*
     Object holding stored value in memory
  */
-const memory = {
+ memory = {
     digits: 0
 }
 
 //Listeners for each memory button
 
-let ms = document.getElementById("ms");
-ms.addEventListener("click", memory_store(memory), false);
+document.getElementById("ms").addEventListener("click", memory_store, false);
 
-let mr = document.getElementById('mr');
-mr.addEventListener("click", memory_recall, false);
+document.getElementById('mr').addEventListener("click", memory_recall, false);
 
-let mplus = document.getElementById("mplus");
-mplus.addEventListener("click", memory_add, false);
+document.getElementById("mplus").addEventListener("click", memory_add, false);
 
 //TODO add buttons
 
@@ -148,21 +145,21 @@ mc.addEventListener("click", memory_clear, false);
 /*
     Store the number displayed on screen to memory
  */
-function memory_store(memory){
+function memory_store(){
     var display = document.getElementsByClassName("calculator_display")[0].innerHTML;
     display = display.replace(/,/g, "");
     memory.digits = parseInt(display);
 }
 
 //TODO
-function memory_recall(memory){
+function memory_recall(){
 
 }
 
 /*
     Add the number on display to number stored in memory and store result
  */
-function memory_add(memory){
+function memory_add(){
     var display = document.getElementsByClassName("calculator_display")[0].innerHTML;
     display = display.replace(/,/g, "");
     var display_digits = parseInt(display)
@@ -172,7 +169,7 @@ function memory_add(memory){
 /*
     Subtract number on display from number stored in memory and store result
  */
-function memory_subtract(memory){
+function memory_subtract(){
     var display = document.getElementsByClassName("calculator_display")[0].innerHTML;
     display = display.replace(/,/g, "");
     var display_digits = parseInt(display)
@@ -182,6 +179,6 @@ function memory_subtract(memory){
 /*
     Clears memory by setting to zero
  */
-function memory_clear(memory){
+function memory_clear(){
     memory.digits = 0;
 }
