@@ -1,15 +1,5 @@
 
 /*
-Definition: when user click AC the display screen should display 0 and memory ...
- */
-//  Edited 7/10/21 by Samuel Gernstetter
-//      use name instead of class
-document.getElementsByName("clear")[0].addEventListener("click", function (){
-    document.getElementsByClassName("calculator_display")[0].innerHTML = "0";
-}, false);
-
-
-/*
 Definition: when user click digit button the display screen changes.
  */
 
@@ -119,6 +109,42 @@ operators[7].addEventListener("click", addition, false);
 operators[6].addEventListener("click", subtraction, false);
 operators[5].addEventListener("click", multiplication, false);
 operators[4].addEventListener("click", division, false);
+
+// Created 7/10/21 by Hongda Lin
+/*
+operators[2].addEventListener("click", radic, false);
+operators[1].addEventListener("click", square, false);
+oeprators[0].addEventListener("click", module, false);
+equal = document.getElementsByName("equal");
+*/
+
+/*
+    when user click clear button C, all entry will be clear, object calcState reset to its initial value
+    when user click clear button CE, the last digit entered will be cleared, property num2 will reset to inital value
+ */
+//  Edited 7/10/21 by Samuel Gernstetter
+//      use name instead of class
+//  Edited 7/10/21 by Hongda Lin
+//      finish implementing clear buttons
+document.getElementsByName("clear")[0].addEventListener("click", function (){
+    document.getElementsByClassName("calculator_display")[0].innerHTML = "0";
+    calcState.num1 = undefined;
+    calcState.num2 = undefined;
+    calcState.currentOperator = undefined;
+    console.log("num1: " + calcState.num1);
+    console.log("num2: " + calcState.num2);
+    console.log("currentOperator: " + calcState.currentOperator);
+}, false);
+
+document.getElementsByName("clear")[1].addEventListener("click", function (){
+    document.getElementsByClassName("calculator_display")[0].innerHTML = "0";
+    calcState.num2 = undefined;
+    console.log("num1: " + calcState.num1);
+    console.log("num2: " + calcState.num2);
+    console.log("currentOperator: " + calcState.currentOperator);
+}, false);
+
+
 
 /*Created by Drew Jackson 7/9/21*/
 /*
