@@ -2,6 +2,8 @@
 /*
 Definition: when user click AC the display screen should display 0 and memory ...
  */
+//  Edited 7/10/21 by Samuel Gernstetter
+//      use name instead of class
 document.getElementsByName("clear")[0].addEventListener("click", function (){
     document.getElementsByClassName("calculator_display")[0].innerHTML = "0";
 }, false);
@@ -14,6 +16,8 @@ Definition: when user click digit button the display screen changes.
 //Created on ___ by Hongda Lin
 //Edited 7/9/21 by Madison Graziani
 //   -Changed second parameter
+//  Edited 7/10/21 by Samuel Gernstetter
+//      use name instead of class
 digits = document.getElementsByName("digit");
 for (let i = 0; i < digits.length; i++){
     digits[i].addEventListener("click", updateDigits, false);
@@ -26,6 +30,8 @@ for (let i = 0; i < digits.length; i++){
 //   -Added ability to display multiple digits (up to 10)
 //   -Added check for leading zero
 //   -Added comma separators
+//  Edited 7/10/21 by Samuel Gernstetter
+//      use lets instead of vars, use innerHTML instead of value
 function updateDigits(){
     let newVal;
     let currVal = document.getElementsByClassName("calculator_display")[0].innerHTML;
@@ -100,6 +106,8 @@ function division() {
     currentOperator = "division";
 }
 
+//  Edited 7/10/21 by Samuel Gernstetter
+//      use name instead of class
 operators = document.getElementsByName("operator");
 operators[7].addEventListener("click", addition, false);
 operators[6].addEventListener("click", subtraction, false);
@@ -110,12 +118,16 @@ operators[4].addEventListener("click", division, false);
 /*
     Object holding stored value in memory
  */
+//  Edited 7/10/21 by Samuel Gernstetter
+//      remove const
 memory = {
     digits: 0
 }
 
 //Listeners for each memory button
 
+//  Edited 7/10/21 by Samuel Gernstetter
+//      remove lets
 ms = document.getElementById("ms");
 ms.addEventListener("click", memory_store(memory), false);
 
