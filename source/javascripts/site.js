@@ -52,27 +52,32 @@ function updateDigits(){
 
 
 /* Created 7/8/21 by Samuel Gernstetter */
-var num1 = undefined;
-var num2 = undefined;
-var currentOperator = "none";
+//  Edited 7/10/21 by Samuel Gernstetter
+//      use object instead of global variables
+calcState = {
+    num1: undefined,
+    num2: undefined,
+    currentOperator: undefined
+};
 
 function process() {
-    if (num1 !== undefined) {
-        num2 = parseInt(document.getElementsByClassName("calculator_display")[0].innerHTML);
+    if (calcState.num1 != undefined) {
+        calcState.num2 = parseInt(document.getElementsByClassName("calculator_display")[0].innerHTML);
+        console.log("num2: " + calcState.num2)
         let outputIsNum = true;
-        switch (currentOperator) {
+        switch (calcState.currentOperator) {
             case "addition":
-                num1 = num1 + num2;
+                calcState.num1 = calcState.num1 + calcState.num2;
                 break;
             case "subtraction":
-                num1 = num1 - num2;
+                calcState.num1 = calcState.num1 - calcState.num2;
                 break;
             case "multiplication":
-                num1 = num1 * num2;
+                calcState.num1 = calcState.num1 * calcState.num2;
                 break;
             case "division":
-                if (num2 != 0) {
-                    num1 = num1 / num2;
+                if (calcState.num2 != 0) {
+                    calcState.num1 = calcState.num1 / calcState.num2;
                 } else {
                     document.getElementsByClassName("calculator_display")[0].innerHTML = "Cannot divide by zero";
                     outputIsNum = false;
@@ -81,29 +86,30 @@ function process() {
             default:
         }
         if (outputIsNum) {
-            document.getElementsByClassName("calculator_display")[0].innerHTML = num1;
+            document.getElementsByClassName("calculator_display")[0].innerHTML = calcState.num1;
         }
-        num2 = undefined;
+        calcState.num2 = undefined;
     } else {
-        num1 = parseInt(document.getElementsByClassName("calculator_display")[0].innerHTML);
+        calcState.num1 = parseInt(document.getElementsByClassName("calculator_display")[0].innerHTML);
         document.getElementsByClassName("calculator_display")[0].innerHTML = "0";
+        console.log("num1: " + calcState.num1)
     }
 }
 function addition() {
     process();
-    currentOperator = "addition";
+    calcState.currentOperator = "addition";
 }
 function subtraction() {
     process();
-    currentOperator = "subtraction";
+    calcState.currentOperator = "subtraction";
 }
 function multiplication() {
     process();
-    currentOperator = "multiplication";
+    calcState.currentOperator = "multiplication";
 }
 function division() {
     process();
-    currentOperator = "division";
+    calcState.currentOperator = "division";
 }
 
 //  Edited 7/10/21 by Samuel Gernstetter
