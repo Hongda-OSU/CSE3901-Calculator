@@ -1,125 +1,157 @@
 
 /*
-Definition: when user click AC the display screen should display 0 and memory ...
- */
-document.getElementById("clear").addEventListener("click", function (){
-    document.getElementsByClassName("calculator_display")[0].innerHTML = 0;
-}, false);
-
-
-/*
 Definition: when user click digit button the display screen changes.
  */
+
 
 //Created on ___ by Hongda Lin
 //Edited 7/9/21 by Madison Graziani
 //   -Changed second parameter
-var digits = document.getElementsByClassName("digit");
-for(var i=0; i < digits.length; i++){
+//  Edited 7/10/21 by Samuel Gernstetter
+//      use name instead of class
+digits = document.getElementsByName("digit");
+for (let i = 0; i < digits.length; i++){
     digits[i].addEventListener("click", updateDigits, false);
 }
 
-let operator = document.getElementsByClassName("operator");
-for(var i=0; i<operator.length; i++){
-    operator[i].addEventListener("click", updateOperators, false);
-}
 
-function updateOperators(){
-
-}
 
 //Created on ___ by Hongda Lin
 //Edited by Madison Graziani on 7/9/21
 //   -Added ability to display multiple digits (up to 10)
 //   -Added check for leading zero
 //   -Added comma separators
+//  Edited 7/10/21 by Samuel Gernstetter
+//      use lets instead of vars, use innerHTML instead of value
 function updateDigits(){
-    var newVal;
-    var currVal = document.getElementsByClassName("calculator_display")[0].innerHTML;
-        if(currVal !== "0") {
-            newVal = currVal + this.value;
-            newVal = Array.from(newVal);
-            newVal = newVal.filter(function(val) {return val !== ","})
-            var index = newVal.length - 3;
-            while(index > 0){
-                newVal.splice(index, 0, ",");
-                index = index - 3;
-            }
-            document.getElementsByClassName("calculator_display")[0].innerHTML = newVal.join("");
+    let newVal;
+    let currVal = document.getElementsByClassName("calculator_display")[0].innerHTML;
+    if (currVal !== "0") {
+        newVal = currVal + this.innerHTML;
+        newVal = Array.from(newVal);
+        newVal = newVal.filter(function(val) {return val !== ","})
+        let index = newVal.length - 3;
+        while (index > 0) {
+            newVal.splice(index, 0, ",");
+            index = index - 3;
         }
-        else{
-            document.getElementsByClassName("calculator_display")[0].innerHTML = this.value;
-        }
+        document.getElementsByClassName("calculator_display")[0].innerHTML = newVal.join("");
+    } else {
+        document.getElementsByClassName("calculator_display")[0].innerHTML = this.innerHTML;
+    }
 }
 
 
 /* Created 7/8/21 by Samuel Gernstetter */
-var num1 = 0;
-var num2 = undefined;
-var currentOperator = "none";
+//  Edited 7/10/21 by Samuel Gernstetter
+//      use object instead of global variables
+calcState = {
+    num1: undefined,
+    num2: undefined,
+    currentOperator: undefined
+};
 
-function process(nextOperator) {
-    let result = 0;
-    switch (currentOperator) {
-        case "addition":
-            result = num1 + num2;
-            break;
-        case "subtraction":
-            result = num1 - num2;
-            break;
-        case "multiplication":
-            result = num1 * num2;
-            break;
-        case "division":
-            if (num2 != 0) {
-                result = num1 / num2;
-            } else {
-                document.getElementsByClassName("calculator_display")[0].innerHTML = "Cannot divide by zero";
-            }
-            break;
-        default:
+function process() {
+    if (calcState.num1 != undefined) {
+        calcState.num2 = parseInt(document.getElementsByClassName("calculator_display")[0].innerHTML);
+        console.log("num2: " + calcState.num2)
+        let outputIsNum = true;
+        switch (calcState.currentOperator) {
+            case "addition":
+                calcState.num1 = calcState.num1 + calcState.num2;
+                break;
+            case "subtraction":
+                calcState.num1 = calcState.num1 - calcState.num2;
+                break;
+            case "multiplication":
+                calcState.num1 = calcState.num1 * calcState.num2;
+                break;
+            case "division":
+                if (calcState.num2 != 0) {
+                    calcState.num1 = calcState.num1 / calcState.num2;
+                } else {
+                    document.getElementsByClassName("calculator_display")[0].innerHTML = "Cannot divide by zero";
+                    outputIsNum = false;
+                }
+                break;
+            default:
+        }
+        if (outputIsNum) {
+            document.getElementsByClassName("calculator_display")[0].innerHTML = calcState.num1;
+        }
+        calcState.num2 = undefined;
+    } else {
+        calcState.num1 = parseInt(document.getElementsByClassName("calculator_display")[0].innerHTML);
+        document.getElementsByClassName("calculator_display")[0].innerHTML = "0";
+        console.log("num1: " + calcState.num1)
     }
-    currentOperator = nextOperator;
 }
 function addition() {
-    console.log(this.id);
-    process("addition");
+    process();
+    calcState.currentOperator = "addition";
 }
 function subtraction() {
-    console.log(this.id);
-    process("subtraction");
+    process();
+    calcState.currentOperator = "subtraction";
 }
 function multiplication() {
-    console.log(this.id);
-    process("multiplication");
+    process();
+    calcState.currentOperator = "multiplication";
 }
 function division() {
-    console.log(this.id);
-    process("division");
+    process();
+    calcState.currentOperator = "division";
 }
 
-let plus = document.getElementById("plus")
-plus.addEventListener("click", addition, false)
-let minus = document.getElementById("minus")
-minus.addEventListener("click", subtraction, false)
-let times = document.getElementById("times")
-times.addEventListener("click", multiplication, false)
-let divide = document.getElementById("divide")
-divide.addEventListener("click", division, false)
+//  Edited 7/10/21 by Samuel Gernstetter
+//      use name instead of class
+operators = document.getElementsByName("operator");
+operators[7].addEventListener("click", addition, false);
+operators[6].addEventListener("click", subtraction, false);
+operators[5].addEventListener("click", multiplication, false);
+operators[4].addEventListener("click", division, false);
+
+// Created 7/10/21 by Hongda Lin
+/*
+operators[2].addEventListener("click", radic, false);
+operators[1].addEventListener("click", square, false);
+oeprators[0].addEventListener("click", module, false);
+equal = document.getElementsByName("equal");
+*/
+
+/*
+    when user click clear button C, all entry will be clear, object calcState reset to its initial value
+    when user click clear button CE, the last digit entered will be cleared, property num2 will reset to inital value
+ */
+//  Edited 7/10/21 by Samuel Gernstetter
+//      use name instead of class
+//  Edited 7/10/21 by Hongda Lin
+//      finish implementing clear buttons
+document.getElementsByName("clear")[0].addEventListener("click", function (){
+    document.getElementsByClassName("calculator_display")[0].innerHTML = "0";
+    calcState.num1 = undefined;
+    calcState.num2 = undefined;
+    calcState.currentOperator = undefined;
+    console.log("num1: " + calcState.num1);
+    console.log("num2: " + calcState.num2);
+    console.log("currentOperator: " + calcState.currentOperator);
+}, false);
+
+document.getElementsByName("clear")[1].addEventListener("click", function (){
+    document.getElementsByClassName("calculator_display")[0].innerHTML = "0";
+    calcState.num2 = undefined;
+    console.log("num1: " + calcState.num1);
+    console.log("num2: " + calcState.num2);
+    console.log("currentOperator: " + calcState.currentOperator);
+}, false);
 
 
-operators = document.getElementsByClassName("operator");
-operators.namedItem("plus").addEventListener("click", addition, false);
-operators.namedItem("minus").addEventListener("click", subtraction, false);
-operators.namedItem("times").addEventListener("click", multiplication, false);
-operators.namedItem("divide").addEventListener("click", division, false);
 
 /*Created by Drew Jackson 7/9/21*/
 /*
     Object holding stored value in memory
  */
- memory = {
-    digits: 0
+memory = { digits: 0
 }
 
 //Listeners for each memory button
