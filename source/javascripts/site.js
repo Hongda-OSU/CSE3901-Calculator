@@ -1,10 +1,21 @@
+/* Created 7/8/21 by Samuel Gernstetter */
+//  Edited 7/10/21 by Samuel Gernstetter
+//      use object instead of global variables
+//  Edited 7/10/21 by Hongda Lin
+//      add two properties num2Entered and procssFinished to solve display problem
+calcState = {
+    num1: undefined,
+    num2: undefined,
+    currentOperator: undefined,
+    num2Entered: false,
+    procssFinished: false
+};
 
 /*
-Definition: when user click digit button the display screen changes.
+    give each digit button an event listener to update screen
  */
-
-//Created on ___ by Hongda Lin
-//Edited 7/9/21 by Madison Graziani
+// Created on 7/9/21 by Hongda Lin
+// Edited 7/9/21 by Madison Graziani
 //   -Changed second parameter
 //  Edited 7/10/21 by Samuel Gernstetter
 //      use name instead of class
@@ -13,47 +24,72 @@ for (let i = 0; i < digits.length; i++){
     digits[i].addEventListener("click", updateDigits, false);
 }
 
-
-
-//Created on ___ by Hongda Lin
-//Edited by Madison Graziani on 7/9/21
-//   -Added ability to display multiple digits (up to 10)
+/*
+    1. when the operation button is clicked, update the screen for num2
+    2. when user operation button is not clicked, update screen for num1
+ */
+// Created on 7/9/21 by Hongda Lin
+// Edited by Madison Graziani on 7/9/21
 //   -Added check for leading zero
 //   -Added comma separators
 //  Edited 7/10/21 by Samuel Gernstetter
 //      use lets instead of vars, use innerHTML instead of value
-function updateDigits(){
-    let newVal;
-    let currVal = document.getElementsByClassName("calculator_display")[0].innerHTML;
-    if (currVal !== "0") {
-        newVal = currVal + this.innerHTML;
-        newVal = Array.from(newVal);
-        newVal = newVal.filter(function(val) {return val !== ","})
-        let index = newVal.length - 3;
-        while (index > 0) {
-            newVal.splice(index, 0, ",");
-            index = index - 3;
-        }
-        document.getElementsByClassName("calculator_display")[0].innerHTML = newVal.join("");
-    } else {
+//  Edited 7/10/21 by Hongda Lin
+//      separate filter function and fix digit display problem
+function updateDigits() {
+    /*
+        1. when currentOperator isn't undefined and user is clicking the digit button, that means
+        num2 is going to be entered and process() is ready be evaluated again
+        2. after user enter the first digit for num2, update screen like update num1
+     */
+    if (calcState.currentOperator != undefined && !calcState.num2Entered) {
         document.getElementsByClassName("calculator_display")[0].innerHTML = this.innerHTML;
+        calcState.num2Entered = true;
+        calcState.procssFinished = false;
+    } else {
+        let newVal;
+        let currVal = document.getElementsByClassName("calculator_display")[0].innerHTML;
+        if (currVal !== "0") {
+            newVal = filterComma(currVal + this.innerHTML);
+            document.getElementsByClassName("calculator_display")[0].innerHTML = putComma(newVal);
+        } else {
+            document.getElementsByClassName("calculator_display")[0].innerHTML = this.innerHTML;
+        }
     }
 }
 
+/*
+    @param: val
+    @return: string
+    remove the commas in val
+ */
+// Created on 7/9/21 by Drew Jackson
+// Edit by Hongda Lin 7/10/21
+function filterComma(val){
+    return val.replace(/,/g, "");
+}
 
-/* Created 7/8/21 by Samuel Gernstetter */
-//  Edited 7/10/21 by Samuel Gernstetter
-//      use object instead of global variables
-calcState = {
-    num1: undefined,
-    num2: undefined,
-    currentOperator: undefined
-};
+/*
+    @param: val
+    @return: string
+    add commas to val
+ */
+// Created on 7/10/21 by Madison Graziani
+// Edit by Hongda Lin 7/10/21
+function putComma(val){
+    result = Array.from(val);
+    let index = result.length - 3;
+    while (index > 0) {
+        result.splice(index, 0, ",");
+        index = index - 3;
+    }
+    return result.join("");
+}
+
 
 function process() {
     if (calcState.num1 != undefined) {
-        calcState.num2 = parseInt(document.getElementsByClassName("calculator_display")[0].innerHTML);
-        console.log("num2: " + calcState.num2)
+        calcState.num2 = parseInt(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML));
         let outputIsNum = true;
         switch (calcState.currentOperator) {
             case "addition":
@@ -76,39 +112,69 @@ function process() {
             default:
         }
         if (outputIsNum) {
-            document.getElementsByClassName("calculator_display")[0].innerHTML = calcState.num1;
+            console.log("num1: " + calcState.num1);
+            console.log("num2: " + calcState.num2);
+            document.getElementsByClassName("calculator_display")[0].innerHTML = putComma(calcState.num1.toString());
         }
         calcState.num2 = undefined;
     } else {
-        calcState.num1 = parseInt(document.getElementsByClassName("calculator_display")[0].innerHTML);
-        document.getElementsByClassName("calculator_display")[0].innerHTML = "0";
-        console.log("num1: " + calcState.num1)
+        calcState.num1 = parseInt(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML));
     }
 }
+
+/*
+    1. when user click operation button, expect num2 is undefined and ready to be entered
+    2. after execute procss(), change procssFinished to true, unless num2 is entered,
+    the process() will not be execute, but the currentOperator will change
+ */
+//  Created on ___ by Samuel Gernstetter
+//  Edited by Hongda Lin on 7/10/21
+//      fix additional click on operations buttons that execute process()
 function addition() {
-    process();
+    if(calcState.procssFinished == false){
+        process();
+        calcState.procssFinished = true;
+    }
     calcState.currentOperator = "addition";
+    calcState.num2Entered = false;
+    console.log("currentOperator " + calcState.currentOperator);
 }
 function subtraction() {
-    process();
+    if(calcState.procssFinished == false){
+        process();
+        calcState.procssFinished = true;
+    }
     calcState.currentOperator = "subtraction";
+    calcState.num2Entered = false;
+    console.log("currentOperator " + calcState.currentOperator);
 }
 function multiplication() {
-    process();
+    if(calcState.procssFinished == false){
+        process();
+        calcState.procssFinished = true;
+    }
     calcState.currentOperator = "multiplication";
+    calcState.num2Entered = false;
+    console.log("currentOperator " + calcState.currentOperator);
 }
 function division() {
-    process();
+    if(calcState.procssFinished == false){
+        process();
+        calcState.procssFinished = true;
+    }
     calcState.currentOperator = "division";
+    calcState.num2Entered = false;
+    console.log("currentOperator " + calcState.currentOperator);
 }
 
 //  Edited 7/10/21 by Samuel Gernstetter
 //      use name instead of class
+//  operators:[0:module, 1:square, 2:radic, 3:division, 4:multiplication, 5:subtraction, 6:addition]
 operators = document.getElementsByName("operator");
-operators[7].addEventListener("click", addition, false);
-operators[6].addEventListener("click", subtraction, false);
-operators[5].addEventListener("click", multiplication, false);
-operators[4].addEventListener("click", division, false);
+operators[6].addEventListener("click", addition, false);
+operators[5].addEventListener("click", subtraction, false);
+operators[4].addEventListener("click", multiplication, false);
+operators[3].addEventListener("click", division, false);
 
 // Created 7/10/21 by Hongda Lin
 /*
@@ -119,8 +185,8 @@ equal = document.getElementsByName("equal");
 */
 
 /*
-    when user click clear button C, all entry will be clear, object calcState reset to its initial value
-    when user click clear button CE, the last digit entered will be cleared, property num2 will reset to inital value
+    1. when user click clear button C, all entry will be clear, object calcState reset to its initial value
+    2. when user click clear button CE, num2 will reset to initial value, user could re-enter num2
  */
 //  Edited 7/10/21 by Samuel Gernstetter
 //      use name instead of class
@@ -131,6 +197,9 @@ document.getElementsByName("clear")[0].addEventListener("click", function (){
     calcState.num1 = undefined;
     calcState.num2 = undefined;
     calcState.currentOperator = undefined;
+    calcState.num2Entered = false;
+    calcState.procssFinished = false
+    console.clear();
     console.log("num1: " + calcState.num1);
     console.log("num2: " + calcState.num2);
     console.log("currentOperator: " + calcState.currentOperator);
@@ -139,6 +208,7 @@ document.getElementsByName("clear")[0].addEventListener("click", function (){
 document.getElementsByName("clear")[1].addEventListener("click", function (){
     document.getElementsByClassName("calculator_display")[0].innerHTML = "0";
     calcState.num2 = undefined;
+    console.clear();
     console.log("num1: " + calcState.num1);
     console.log("num2: " + calcState.num2);
     console.log("currentOperator: " + calcState.currentOperator);
