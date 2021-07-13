@@ -2,13 +2,13 @@
 //  Edited 7/10/21 by Samuel Gernstetter
 //      use object instead of global variables
 //  Edited 7/10/21 by Hongda Lin
-//      add two properties num2Entered and procssFinished to solve display problem
+//      add two properties num2Entered and processFinished to solve display problem
 calcState = {
     num1: undefined,
     num2: undefined,
     currentOperator: undefined,
     num2Entered: false,
-    procssFinished: false
+    processFinished: false
 };
 
 /*
@@ -42,10 +42,10 @@ function updateDigits() {
         num2 is going to be entered and process() is ready be evaluated again
         2. after user enter the first digit for num2, update screen like update num1
      */
-    if (calcState.currentOperator != undefined && !calcState.num2Entered) {
+    if (calcState.currentOperator !== undefined && !calcState.num2Entered) {
         document.getElementsByClassName("calculator_display")[0].innerHTML = this.innerHTML;
         calcState.num2Entered = true;
-        calcState.procssFinished = false;
+        calcState.processFinished = false;
     } else {
         let newVal;
         let currVal = document.getElementsByClassName("calculator_display")[0].innerHTML;
@@ -77,7 +77,7 @@ function filterComma(val){
 // Created on 7/10/21 by Madison Graziani
 // Edit by Hongda Lin 7/10/21
 function putComma(val){
-    result = Array.from(val);
+    let result = Array.from(val);
     let index = result.length - 3;
     while (index > 0) {
         result.splice(index, 0, ",");
@@ -88,7 +88,7 @@ function putComma(val){
 
 
 function process() {
-    if (calcState.num1 != undefined) {
+    if (calcState.num1 !== undefined) {
         calcState.num2 = parseInt(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML));
         let outputIsNum = true;
         switch (calcState.currentOperator) {
@@ -102,7 +102,7 @@ function process() {
                 calcState.num1 = calcState.num1 * calcState.num2;
                 break;
             case "division":
-                if (calcState.num2 != 0) {
+                if (calcState.num2 !== 0) {
                     calcState.num1 = calcState.num1 / calcState.num2;
                 } else {
                     document.getElementsByClassName("calculator_display")[0].innerHTML = "Cannot divide by zero";
@@ -124,45 +124,55 @@ function process() {
 
 /*
     1. when user click operation button, expect num2 is undefined and ready to be entered
-    2. after execute procss(), change procssFinished to true, unless num2 is entered,
+    2. after execute process(), change processFinished to true, unless num2 is entered,
     the process() will not be execute, but the currentOperator will change
  */
 //  Created on ___ by Samuel Gernstetter
 //  Edited by Hongda Lin on 7/10/21
 //      fix additional click on operations buttons that execute process()
 function addition() {
-    if(calcState.procssFinished == false){
+    if(calcState.processFinished === false){
         process();
-        calcState.procssFinished = true;
+        calcState.processFinished = true;
     }
     calcState.currentOperator = "addition";
     calcState.num2Entered = false;
     console.log("currentOperator " + calcState.currentOperator);
 }
 function subtraction() {
-    if(calcState.procssFinished == false){
+    if(calcState.processFinished === false){
         process();
-        calcState.procssFinished = true;
+        calcState.processFinished = true;
     }
     calcState.currentOperator = "subtraction";
     calcState.num2Entered = false;
     console.log("currentOperator " + calcState.currentOperator);
 }
 function multiplication() {
-    if(calcState.procssFinished == false){
+    if(calcState.processFinished === false){
         process();
-        calcState.procssFinished = true;
+        calcState.processFinished = true;
     }
     calcState.currentOperator = "multiplication";
     calcState.num2Entered = false;
     console.log("currentOperator " + calcState.currentOperator);
 }
 function division() {
-    if(calcState.procssFinished == false){
+    if(calcState.processFinished === false){
         process();
-        calcState.procssFinished = true;
+        calcState.processFinished = true;
     }
     calcState.currentOperator = "division";
+    calcState.num2Entered = false;
+    console.log("currentOperator " + calcState.currentOperator);
+}
+function square() {
+    calcState.num1 = document.getElementsByClassName("calculator_display")[0].innerHTML;
+    calcState.num2 = calcState.num1;
+    calcState.currentOperator = "multiplication";
+    process();
+    calcState.processFinished = true;
+    calcState.currentOperator = undefined;
     calcState.num2Entered = false;
     console.log("currentOperator " + calcState.currentOperator);
 }
@@ -175,12 +185,13 @@ operators[6].addEventListener("click", addition, false);
 operators[5].addEventListener("click", subtraction, false);
 operators[4].addEventListener("click", multiplication, false);
 operators[3].addEventListener("click", division, false);
+operators[1].addEventListener("click", square, false);
 
 // Created 7/10/21 by Hongda Lin
 /*
 operators[2].addEventListener("click", radic, false);
 operators[1].addEventListener("click", square, false);
-oeprators[0].addEventListener("click", module, false);
+operators[0].addEventListener("click", module, false);
 equal = document.getElementsByName("equal");
 */
 
@@ -198,7 +209,7 @@ document.getElementsByName("clear")[0].addEventListener("click", function (){
     calcState.num2 = undefined;
     calcState.currentOperator = undefined;
     calcState.num2Entered = false;
-    calcState.procssFinished = false
+    calcState.processFinished = false;
     console.clear();
     console.log("num1: " + calcState.num1);
     console.log("num2: " + calcState.num2);
@@ -255,7 +266,7 @@ mc.addEventListener("click", memory_clear, false);
     Store the number displayed on screen to memory
  */
 function memory_store(memory){
-    var display = document.getElementsByClassName("calculator_display")[0].innerHTML;
+    let display = document.getElementsByClassName("calculator_display")[0].innerHTML;
     display = display.replace(/,/g, "");
     memory.digits = parseInt(display);
 }
@@ -269,9 +280,9 @@ function memory_recall(memory){
     Add the number on display to number stored in memory and store result
  */
 function memory_add(memory){
-    var display = document.getElementsByClassName("calculator_display")[0].innerHTML;
+    let display = document.getElementsByClassName("calculator_display")[0].innerHTML;
     display = display.replace(/,/g, "");
-    var display_digits = parseInt(display)
+    let display_digits = parseInt(display)
     memory.digits = memory.digits + display_digits;
 }
 
@@ -279,9 +290,9 @@ function memory_add(memory){
     Subtract number on display from number stored in memory and store result
  */
 function memory_subtract(memory){
-    var display = document.getElementsByClassName("calculator_display")[0].innerHTML;
+    let display = document.getElementsByClassName("calculator_display")[0].innerHTML;
     display = display.replace(/,/g, "");
-    var display_digits = parseInt(display)
+    let display_digits = parseInt(display)
     memory.digits = memory.digits - display_digits;
 }
 
