@@ -24,9 +24,22 @@ for (let i = 0; i < digits.length; i++){
     digits[i].addEventListener("click", updateDigits, false);
 }
 
+decimal = document.getElementsByName("decimal")[0];
+decimal.addEventListener("click", updateDecimal, false);
+
+/*
+    when user click decimal button, update screen and num1/num2 should be float
+ */
+// Created on 7/12/21 by Hongda Lin
+function updateDecimal(){
+    if(!document.getElementsByClassName("calculator_display")[0].innerHTML.includes(".")){
+        document.getElementsByClassName("calculator_display")[0].innerHTML += ".";
+    }
+}
+
 /*
     1. when the operation button is clicked, update the screen for num2
-    2. when user operation button is not clicked, update screen for num1
+    2. when operation button is not clicked, update screen for num1
  */
 // Created on 7/9/21 by Hongda Lin
 // Edited by Madison Graziani on 7/9/21
@@ -64,7 +77,7 @@ function updateDigits() {
     remove the commas in val
  */
 // Created on 7/9/21 by Drew Jackson
-// Edit by Hongda Lin 7/10/21
+// Edited by Hongda Lin 7/10/21
 function filterComma(val){
     return val.replace(/,/g, "");
 }
@@ -75,15 +88,18 @@ function filterComma(val){
     add commas to val
  */
 // Created on 7/10/21 by Madison Graziani
-// Edit by Hongda Lin 7/10/21
+// Edited by Hongda Lin 7/10/21
+// Edited by Hongda Lin 7/12/21
+//      change the function so the decimal part don't get commas
 function putComma(val){
-    result = Array.from(val);
+    decimal = val.slice(val.indexOf("."), val.length);
+    result = Array.from(val.slice(0, val.indexOf(".")));
     let index = result.length - 3;
     while (index > 0) {
         result.splice(index, 0, ",");
         index = index - 3;
     }
-    return result.join("");
+    return result.join("").concat(decimal);
 }
 
 
@@ -127,7 +143,7 @@ function process() {
     2. after execute procss(), change procssFinished to true, unless num2 is entered,
     the process() will not be execute, but the currentOperator will change
  */
-//  Created on ___ by Samuel Gernstetter
+//  Created on 7/9/21 by Samuel Gernstetter
 //  Edited by Hongda Lin on 7/10/21
 //      fix additional click on operations buttons that execute process()
 function addition() {
@@ -167,6 +183,16 @@ function division() {
     console.log("currentOperator " + calcState.currentOperator);
 }
 
+function equal(){
+    if(calcState.procssFinished == false){
+        process();
+        calcState.procssFinished = true;
+    }
+    calcState.currentOperator = "equal";
+    calcState.num2Entered = false;
+    console.log("currentOperator " + calcState.currentOperator);
+}
+
 //  Edited 7/10/21 by Samuel Gernstetter
 //      use name instead of class
 //  operators:[0:module, 1:square, 2:radic, 3:division, 4:multiplication, 5:subtraction, 6:addition]
@@ -181,8 +207,13 @@ operators[3].addEventListener("click", division, false);
 operators[2].addEventListener("click", radic, false);
 operators[1].addEventListener("click", square, false);
 oeprators[0].addEventListener("click", module, false);
-equal = document.getElementsByName("equal");
-*/
+ */
+
+// Implement equal button
+document.getElementsByName("equal")[0].addEventListener("click", equal, false);
+
+
+
 
 /*
     1. when user click clear button C, all entry will be clear, object calcState reset to its initial value
