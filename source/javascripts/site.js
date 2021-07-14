@@ -51,6 +51,8 @@ function updateDecimal(){
 //      separate filter function and fix digit display problem
 //  Edited 7/13/21 by Hongda Lin
 //      modifications for equal button
+//  Edited 7/14/21 by Hongda Lin
+//      modification for square button, maybe also need to square root button
 function updateDigits() {
     /*
         1. when currentOperator isn't undefined and user is clicking the digit button, that means
@@ -59,7 +61,7 @@ function updateDigits() {
         3. If user click the equal button and then click digit button, num1 needs to be reset to initial value
      */
     let check = true;
-    if (calcState.currentOperator === "equal"){
+    if (calcState.currentOperator === "equal" || calcState.currentOperator === "square"){
         calcState.num1 = undefined;
         calcState.currentOperator = undefined;
         calcState.processFinished = false;
@@ -195,16 +197,23 @@ function division() {
     calcState.num2Entered = false;
     console.log(calcState);
 }
+
+// Created 7/13/21 by Samuel Gernstetter
+// Edited 7/14/21 by Hongda Lin
+//  fix some logic and display problem
 function square() {
-    calcState.num1 = parseInt(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML));
-    calcState.num2 = calcState.num1;
-    calcState.currentOperator = "multiplication";
-    process();
-    calcState.processFinished = true;
-    calcState.currentOperator = undefined;
-    calcState.num2Entered = false;
-    console.log("currentOperator " + calcState.currentOperator);
+    if (calcState.num1 === undefined) {
+        calcState.num1 = Math.pow(parseInt(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML)), 2);
+        document.getElementsByClassName("calculator_display")[0].innerHTML = putComma(calcState.num1.toString());
+        calcState.currentOperator = "square";
+        calcState.num2Entered = false;
+    }else {
+        calcState.num2 = Math.pow(parseInt(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML)), 2);
+        document.getElementsByClassName("calculator_display")[0].innerHTML = putComma(calcState.num2.toString());
+    }
+    console.log(calcState);
 }
+
 // Created 7/13/21 by Hongda Lin
 function equal(){
     if(!calcState.processFinished){
