@@ -197,7 +197,10 @@ function division() {
     calcState.num2Entered = false;
     console.log(calcState);
 }
-
+/*
+    1. When user enter a number and click square button, if num1 is undefined, then update num1, set currentOperator to square
+    2. If num1 is defined but num2 is not defined, it's likely user is doing other operation like 9+2^2, only update num2
+ */
 // Created 7/13/21 by Samuel Gernstetter
 // Edited 7/14/21 by Hongda Lin
 //  fix some logic and display problem
