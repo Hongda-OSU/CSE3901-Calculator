@@ -41,6 +41,15 @@ function updateDigits(){
     }
 }
 
+/* Created by Drew Jackson 7/10/21
+    Convert string of number on display to numeric value
+ */
+function display_to_float() {
+    var display = document.getElementsByClassName("calculator_display")[0].innerHTML;
+    display = display.replace(/,/g, "");
+    return parseFloat(display);
+}
+
 
 /* Created 7/8/21 by Samuel Gernstetter */
 //  Edited 7/10/21 by Samuel Gernstetter
@@ -151,7 +160,7 @@ document.getElementsByName("clear")[1].addEventListener("click", function (){
 /*
     Object holding stored value in memory
  */
-memory = { digits: 0
+memory = { digits: 0.0
 }
 
 //Listeners for each memory button
@@ -178,39 +187,42 @@ mc.addEventListener("click", memory_clear, false);
     Store the number displayed on screen to memory
  */
 function memory_store(){
-    var display = document.getElementsByClassName("calculator_display")[0].innerHTML;
-    display = display.replace(/,/g, "");
-    memory.digits = parseInt(display);
+    memory.digits = display_to_float();
 }
 
-//TODO
-function memory_recall(){
+/* Enters the value stored in memory into the proper operand and displays
+    that value on the calculator display.
+ */
 
+function memory_recall(){
+    if (calcState.num1 === undefined) {
+        calcState.num1 = memory.digits;
+    }
+    else {
+        calcState.num2 = memory.digits;
+    }
+    // How is display updated after operation to have commas
+    document.getElementById("calculator_display").innerHTML = memory.digits;
+    updateDigits();
 }
 
 /*
     Add the number on display to number stored in memory and store result
  */
 function memory_add(){
-    var display = document.getElementsByClassName("calculator_display")[0].innerHTML;
-    display = display.replace(/,/g, "");
-    var display_digits = parseInt(display)
-    memory.digits = memory.digits + display_digits;
+    memory.digits = memory.digits + display_to_float();
 }
 
 /*
     Subtract number on display from number stored in memory and store result
  */
 function memory_subtract(){
-    var display = document.getElementsByClassName("calculator_display")[0].innerHTML;
-    display = display.replace(/,/g, "");
-    var display_digits = parseInt(display)
-    memory.digits = memory.digits - display_digits;
+    memory.digits = memory.digits - display_to_float();
 }
 
 /*
     Clears memory by setting to zero
  */
 function memory_clear(){
-    memory.digits = 0;
+    memory.digits = 0.0;
 }
