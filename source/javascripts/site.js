@@ -1,4 +1,4 @@
-/* Created 7/8/21 by Samuel Gernstetter */
+// Created 7/8/21 by Samuel Gernstetter
 //  Edited 7/10/21 by Samuel Gernstetter
 //      use object instead of global variables
 //  Edited 7/10/21 by Hongda Lin
@@ -14,12 +14,12 @@ function Calculator(){
 function Condition(){
     this.num2Entered = false;
     this.processFinished = false;
-    this.sign = "positive";
+    // this.sign = "positive";
 }
 // Use prototype chaining generate object calcState
 Calculator.prototype = new Condition();
 Calculator.prototype.constructor = Calculator;
-let calcState = new Calculator();
+calcState = new Calculator();
 
 
 /*
@@ -35,8 +35,6 @@ constants = {
 /*
     give each digit button an event listener to update screen
  */
-
-
 //Created on ___ by Hongda Lin
 //Edited 7/9/21 by Madison Graziani
 // Created on 7/9/21 by Hongda Lin
@@ -307,8 +305,6 @@ operators[0].addEventListener("click", module, false);
 // Created 7/13/21 by Hongda Lin
 // Implement equal button
 document.getElementsByName("equal")[0].addEventListener("click", equal, false);
-
-
 
 /*
     1. when user click clear button C, all entry will be clear, object calcState reset to its initial value
