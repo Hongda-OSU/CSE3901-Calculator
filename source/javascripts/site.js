@@ -1,15 +1,31 @@
-/* Created 7/8/21 by Samuel Gernstetter */
+// Created 7/8/21 by Samuel Gernstetter
 //  Edited 7/10/21 by Samuel Gernstetter
 //      use object instead of global variables
 //  Edited 7/10/21 by Hongda Lin
 //      add two properties num2Entered and processFinished to solve display problem
-calcState = {
-    num1: undefined,
-    num2: undefined,
-    currentOperator: undefined,
-    num2Entered: false,
-    processFinished: false,
-};
+// Edited 7/15/21 by Hongda Lin
+//      create Calculator constructor function and Condition constructor function to generate object calcState using prototype chaining
+//Edited 7/15/21 by Madison Graziani
+//      added piPressed boolean to Condition()
+//  Edited 7/15/21 by Samuel Gernstetter
+//      add percentPressed boolean to Condition()
+function Calculator(){
+    this.num1 = undefined;
+    this.num2 = undefined;
+    this.currentOperator = undefined;
+}
+function Condition(){
+    this.num2Entered = false;
+    this.processFinished = false;
+    this.piPressed = false;
+    this.percentPressed = false;
+    // this.sign = "positive";
+}
+// Use prototype chaining generate object calcState
+Calculator.prototype = new Condition();
+Calculator.prototype.constructor = Calculator;
+calcState = new Calculator();
+
 
 /*
     Created by Drew Jackson 7/15
@@ -23,7 +39,6 @@ constants = {
 /*
     give each digit button an event listener to update screen
  */
-
 //Created on ___ by Hongda Lin
 //Edited 7/9/21 by Madison Graziani
 // Created on 7/9/21 by Hongda Lin
@@ -38,6 +53,24 @@ for (let i = 0; i < digits.length; i++){
 
 decimal = document.getElementsByName("decimal")[0];
 decimal.addEventListener("click", updateDecimal, false);
+
+//Created 7/15/21 by Madison Graziani
+//      Adds listener to pi button
+pi = document.getElementsByName("special")[0];
+pi.addEventListener("click", updatePi, false);
+
+//Created 7/15/21 by Madison Graziani
+//      Sets piPressed to true then calls updateDigits() to display pi
+function updatePi(){
+    calcState.piPressed = true;
+    updateDigits();
+}
+
+//Created 7/15/21 by Madison Graziani
+//      Sets piPressed to false after any operator button is pushed
+function resetPi(){
+    calcState.piPressed = false;
+}
 
 /*
     when user click decimal button, update screen and num1/num2 should be float
@@ -65,6 +98,10 @@ function updateDecimal(){
 //      modifications for equal button
 //  Edited 7/14/21 by Hongda Lin
 //      modification for square and radic button
+//  Edited 7/15/21 by Madison Graziani
+//     -Added functionality for pi button
+//  Edited 7/15/21 by Samuel Gernstetter
+//     add functionality for percent button
 function updateDigits() {
     /*
         1. when currentOperator isn't undefined and user is clicking the digit button, that means
@@ -73,14 +110,21 @@ function updateDigits() {
         3. If user click the equal button and then click digit button, num1 needs to be reset to initial value
      */
     let check = true;
-    if (calcState.currentOperator === "equal" || calcState.currentOperator === "square" || calcState.currentOperator === "radic"){
+    if (calcState.currentOperator === "equal" || calcState.currentOperator === "square" || calcState.currentOperator === "radic" || calcState.currentOperator === "percent"){
         calcState.num1 = undefined;
         calcState.currentOperator = undefined;
         calcState.processFinished = false;
+        calcState.percentPressed = false;
         check = false;
     }
     if (calcState.currentOperator !== undefined && !calcState.num2Entered) {
-        document.getElementsByClassName("calculator_display")[0].innerHTML = this.innerHTML;
+        //Sets display to pi for second number if pi button has been pressed after operator
+        if(calcState.piPressed){
+            document.getElementsByClassName("calculator_display")[0].innerHTML = constants.pi;
+        }
+        else{
+            document.getElementsByClassName("calculator_display")[0].innerHTML = this.innerHTML;
+        }
         calcState.num2Entered = true;
         calcState.processFinished = false;
     } else {
@@ -89,7 +133,12 @@ function updateDigits() {
         if (currVal !== "0" && check) {
             newVal = filterComma(currVal + this.innerHTML);
             document.getElementsByClassName("calculator_display")[0].innerHTML = putComma(newVal);
-        } else {
+        }
+        //After pi is pressed, keeps it as pi until operator is pressed
+        else if(calcState.piPressed){
+            document.getElementsByClassName("calculator_display")[0].innerHTML = constants.pi;
+        }
+        else {
             document.getElementsByClassName("calculator_display")[0].innerHTML = this.innerHTML;
         }
     }
@@ -140,9 +189,14 @@ function putComma(val){
 }
 
 //TODO add comments, author and algorithm in block
+//  Edited 7/15/21 by Samuel Gernstetter
+//      add percent functionality
 function process() {
     if (calcState.num1 !== undefined) {
         calcState.num2 = parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML));
+        if (calcState.percentPressed) {
+            calcState.num2 = calcState.num1 * (calcState.num2 / 100);
+        }
         let outputIsNum = true;
         switch (calcState.currentOperator) {
             case "addition":
@@ -158,7 +212,8 @@ function process() {
                 if (calcState.num2 !== 0) {
                     calcState.num1 = calcState.num1 / calcState.num2;
                 } else {
-                    document.getElementsByClassName("calculator_display")[0].innerHTML = "Cannot divide by zero";
+                    window.alert("Cannot divide by zero!");
+                    C_clear();
                     outputIsNum = false;
                 }
                 break;
@@ -170,13 +225,9 @@ function process() {
             document.getElementsByClassName("calculator_display")[0].innerHTML = putComma(calcState.num1.toString());
         }
         calcState.num2 = undefined;
-        //TODO test by drew
-        //calcState.currentOperator = undefined;
     } else {
         calcState.num1 = Number(parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML)).toPrecision(15));
     }
-    //TODO test by drew
-    //calcState.currentOperator = undefined;
 }
 
 /*
@@ -230,12 +281,20 @@ function division() {
 // Edited 7/14/21 by Hongda Lin
 //  fix some logic and display problem
 function radic(){
-    if (calcState.num1 === undefined || calcState.currentOperator === "radic") {
+    if (calcState.num1 === undefined || calcState.processFinished) {
+        if (parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML)) < 0){
+            window.alert("Cannot square root negative number!");
+            C_clear();
+        }
         calcState.num1 = Math.sqrt(parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML)));
         document.getElementsByClassName("calculator_display")[0].innerHTML = putComma(calcState.num1.toString());
         calcState.currentOperator = "radic";
         calcState.num2Entered = false;
-    }else {
+    } else {
+        if (parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML)) < 0){
+            window.alert("Cannot square root negative number!");
+            C_clear();
+        }
         calcState.num2 = Math.sqrt(parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML)));
         document.getElementsByClassName("calculator_display")[0].innerHTML = putComma(calcState.num2.toString());
     }
@@ -249,7 +308,7 @@ function radic(){
 // Edited 7/14/21 by Hongda Lin
 //  fix some logic and display problem
 function square() {
-    if (calcState.num1 === undefined || calcState.currentOperator === "square") {
+    if (calcState.num1 === undefined || calcState.processFinished) {
         calcState.num1 = Math.pow(parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML)), 2);
         document.getElementsByClassName("calculator_display")[0].innerHTML = putComma(calcState.num1.toString());
         calcState.currentOperator = "square";
@@ -258,6 +317,17 @@ function square() {
         calcState.num2 = Math.pow(parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML)), 2);
         document.getElementsByClassName("calculator_display")[0].innerHTML = putComma(calcState.num2.toString());
     }
+    console.log(calcState);
+}
+// Created 7/15/21 by Samuel Gernstetter
+function percent() {
+    calcState.percentPressed = true;
+    if (!calcState.processFinished) {
+        process();
+        calcState.processFinished = true;
+    }
+    calcState.currentOperator = "percent";
+    calcState.num2Entered = false;
     console.log(calcState);
 }
 // Created 7/13/21 by Hongda Lin
@@ -274,13 +344,21 @@ function equal(){
 //  Edited 7/10/21 by Samuel Gernstetter
 //      use name instead of class
 //  operators:[0:module, 1:square, 2:radic, 3:division, 4:multiplication, 5:subtraction, 6:addition]
+//  Edited 7/15/21 by Madison Graziani
+//      -Added listener to reset pi boolean
+//  Edited 7/15/21 by Samuel Gernstetter
+//      add modulo button
 operators = document.getElementsByName("operator");
+for (let i = 0; i < operators.length; i++){
+    operators[i].addEventListener("click", resetPi, false);
+}
 operators[6].addEventListener("click", addition, false);
 operators[5].addEventListener("click", subtraction, false);
 operators[4].addEventListener("click", multiplication, false);
 operators[3].addEventListener("click", division, false);
 operators[2].addEventListener("click", radic, false);
 operators[1].addEventListener("click", square, false);
+operators[0].addEventListener("click", percent, false);
 
 // Created 7/10/21 by Hongda Lin
 /*
@@ -289,9 +367,10 @@ operators[0].addEventListener("click", module, false);
 
 // Created 7/13/21 by Hongda Lin
 // Implement equal button
+//  Edited 7/15/21 by Madison Graziani
+//      -Added listener to reset pi boolean
+document.getElementsByName("equal")[0].addEventListener("click", resetPi, false);
 document.getElementsByName("equal")[0].addEventListener("click", equal, false);
-
-
 
 /*
     1. when user click clear button C, all entry will be clear, object calcState reset to its initial value
@@ -300,8 +379,13 @@ document.getElementsByName("equal")[0].addEventListener("click", equal, false);
 //  Edited 7/10/21 by Samuel Gernstetter
 //      use name instead of class
 //  Edited 7/10/21 by Hongda Lin
-//      finish implementing clear buttons
-document.getElementsByName("clear")[0].addEventListener("click", function (){
+//      finish implementing clear
+//  Edited 7/15/21 by Madison Graziani
+//      -Added listener to reset pi boolean
+document.getElementsByName("clear")[0].addEventListener("click", resetPi, false);
+document.getElementsByName("clear")[0].addEventListener("click", C_clear, false);
+
+function C_clear(){
     document.getElementsByClassName("calculator_display")[0].innerHTML = "0";
     calcState.num1 = undefined;
     calcState.num2 = undefined;
@@ -310,14 +394,19 @@ document.getElementsByName("clear")[0].addEventListener("click", function (){
     calcState.processFinished = false;
     console.clear();
     console.log(calcState);
-}, false);
+}
 
-document.getElementsByName("clear")[1].addEventListener("click", function (){
+//  Edited 7/15/21 by Madison Graziani
+//      -Added listener to reset pi boolean 
+document.getElementsByName("clear")[1].addEventListener("click", resetPi, false);
+document.getElementsByName("clear")[1].addEventListener("click", CE_clear, false);
+
+function CE_clear(){
     document.getElementsByClassName("calculator_display")[0].innerHTML = "0";
     calcState.num2 = undefined;
     console.clear();
     console.log(calcState);
-}, false);
+}
 
 
 /*Created by Drew Jackson 7/9/21
