@@ -1,11 +1,25 @@
+/* Created 7/8/21 by Samuel Gernstetter */
+//  Edited 7/10/21 by Samuel Gernstetter
+//      use object instead of global variables
+//  Edited 7/10/21 by Hongda Lin
+//      add two properties num2Entered and processFinished to solve display problem
+calcState = {
+    num1: undefined,
+    num2: undefined,
+    currentOperator: undefined,
+    num2Entered: false,
+    processFinished: false,
+};
 
 /*
-Definition: when user click digit button the display screen changes.
+    give each digit button an event listener to update screen
  */
 
 
 //Created on ___ by Hongda Lin
 //Edited 7/9/21 by Madison Graziani
+// Created on 7/9/21 by Hongda Lin
+// Edited 7/9/21 by Madison Graziani
 //   -Changed second parameter
 //  Edited 7/10/21 by Samuel Gernstetter
 //      use name instead of class
@@ -14,30 +28,60 @@ for (let i = 0; i < digits.length; i++){
     digits[i].addEventListener("click", updateDigits, false);
 }
 
+decimal = document.getElementsByName("decimal")[0];
+decimal.addEventListener("click", updateDecimal, false);
 
+/*
+    when user click decimal button, update screen and num1/num2 should be float
+ */
+// Created on 7/12/21 by Hongda Lin
+function updateDecimal(){
+    if(!document.getElementsByClassName("calculator_display")[0].innerHTML.includes(".")){
+        document.getElementsByClassName("calculator_display")[0].innerHTML += ".";
+    }
+}
 
-//Created on ___ by Hongda Lin
-//Edited by Madison Graziani on 7/9/21
-//   -Added ability to display multiple digits (up to 10)
+/*
+    1. when the operation button is clicked, update the screen for num2
+    2. when operation button is not clicked, update screen for num1
+ */
+// Created on 7/9/21 by Hongda Lin
+// Edited by Madison Graziani on 7/9/21
 //   -Added check for leading zero
 //   -Added comma separators
 //  Edited 7/10/21 by Samuel Gernstetter
 //      use lets instead of vars, use innerHTML instead of value
-function updateDigits(){
-    let newVal;
-    let currVal = document.getElementsByClassName("calculator_display")[0].innerHTML;
-    if (currVal !== "0") {
-        newVal = currVal + this.innerHTML;
-        newVal = Array.from(newVal);
-        newVal = newVal.filter(function(val) {return val !== ","})
-        let index = newVal.length - 3;
-        while (index > 0) {
-            newVal.splice(index, 0, ",");
-            index = index - 3;
-        }
-        document.getElementsByClassName("calculator_display")[0].innerHTML = newVal.join("");
-    } else {
+//  Edited 7/10/21 by Hongda Lin
+//      separate filter function and fix digit display problem
+//  Edited 7/13/21 by Hongda Lin
+//      modifications for equal button
+function updateDigits() {
+    /*
+        1. when currentOperator isn't undefined and user is clicking the digit button, that means
+        num2 is going to be entered and process() is ready be evaluated again
+        2. after user enter the first digit for num2, update screen like update num1
+        3. If user click the equal button and then click digit button, num1 needs to be reset to initial value
+     */
+    let check = true;
+    if (calcState.currentOperator === "equal"){
+        calcState.num1 = undefined;
+        calcState.currentOperator = undefined;
+        calcState.processFinished = false;
+        check = false;
+    }
+    if (calcState.currentOperator !== undefined && !calcState.num2Entered) {
         document.getElementsByClassName("calculator_display")[0].innerHTML = this.innerHTML;
+        calcState.num2Entered = true;
+        calcState.processFinished = false;
+    } else {
+        let newVal;
+        let currVal = document.getElementsByClassName("calculator_display")[0].innerHTML;
+        if (currVal !== "0" && check) {
+            newVal = filterComma(currVal + this.innerHTML);
+            document.getElementsByClassName("calculator_display")[0].innerHTML = putComma(newVal);
+        } else {
+            document.getElementsByClassName("calculator_display")[0].innerHTML = this.innerHTML;
+        }
     }
 }
 
@@ -50,20 +94,44 @@ function display_to_float() {
     return parseFloat(display);
 }
 
+/*
+    @param: val
+    @return: string
+    remove the commas in val
+ */
+// Created on 7/9/21 by Drew Jackson
+// Edited by Hongda Lin 7/10/21
+function filterComma(val){
+    return val.replace(/,/g, "");
+}
 
-/* Created 7/8/21 by Samuel Gernstetter */
-//  Edited 7/10/21 by Samuel Gernstetter
-//      use object instead of global variables
-calcState = {
-    num1: undefined,
-    num2: undefined,
-    currentOperator: undefined
-};
+/*
+    @param: val
+    @return: string
+    add commas to val
+ */
+// Created on 7/10/21 by Madison Graziani
+// Edited by Hongda Lin 7/10/21
+// Edited by Hongda Lin 7/12/21
+//      change the function so the decimal part don't get commas
+function putComma(val){
+    let result = Array.from(val);
+    let index;
+    if(result.includes(".")){
+        index = result.indexOf(".") - 3;
+    }else{
+        index = result.length - 3;
+    }
+    while (index > 0) {
+        result.splice(index, 0, ",");
+        index = index - 3;
+    }
+    return result.join("");
+}
 
 function process() {
-    if (calcState.num1 != undefined) {
-        calcState.num2 = parseInt(document.getElementsByClassName("calculator_display")[0].innerHTML);
-        console.log("num2: " + calcState.num2)
+    if (calcState.num1 !== undefined) {
+        calcState.num2 = parseInt(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML));
         let outputIsNum = true;
         switch (calcState.currentOperator) {
             case "addition":
@@ -76,7 +144,7 @@ function process() {
                 calcState.num1 = calcState.num1 * calcState.num2;
                 break;
             case "division":
-                if (calcState.num2 != 0) {
+                if (calcState.num2 !== 0) {
                     calcState.num1 = calcState.num1 / calcState.num2;
                 } else {
                     document.getElementsByClassName("calculator_display")[0].innerHTML = "Cannot divide by zero";
@@ -86,51 +154,106 @@ function process() {
             default:
         }
         if (outputIsNum) {
-            document.getElementsByClassName("calculator_display")[0].innerHTML = calcState.num1;
+            console.log(calcState);
+            document.getElementsByClassName("calculator_display")[0].innerHTML = putComma(calcState.num1.toString());
         }
         calcState.num2 = undefined;
     } else {
-        calcState.num1 = parseInt(document.getElementsByClassName("calculator_display")[0].innerHTML);
-        document.getElementsByClassName("calculator_display")[0].innerHTML = "0";
-        console.log("num1: " + calcState.num1)
+        calcState.num1 = parseInt(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML));
     }
 }
+
+/*
+    1. when user click operation button, expect num2 is undefined and ready to be entered
+    2. after execute process(), change processFinished to true, unless num2 is entered,
+    the process() will not be execute, but the currentOperator will change
+ */
+//  Created on 7/9/21 by Samuel Gernstetter
+//  Edited by Hongda Lin on 7/10/21
+//      fix additional click on operations buttons that execute process()
 function addition() {
-    process();
+    if(!calcState.processFinished){
+        process();
+        calcState.processFinished = true;
+    }
     calcState.currentOperator = "addition";
+    calcState.num2Entered = false;
+    console.log(calcState);
 }
 function subtraction() {
-    process();
+    if(!calcState.processFinished){
+        process();
+        calcState.processFinished = true;
+    }
     calcState.currentOperator = "subtraction";
+    calcState.num2Entered = false;
+    console.log(calcState);
 }
 function multiplication() {
-    process();
+    if(!calcState.processFinished){
+        process();
+        calcState.processFinished = true;
+    }
     calcState.currentOperator = "multiplication";
+    calcState.num2Entered = false;
+    console.log(calcState);
 }
 function division() {
-    process();
+    if(!calcState.processFinished){
+        process();
+        calcState.processFinished = true;
+    }
     calcState.currentOperator = "division";
+    calcState.num2Entered = false;
+    console.log(calcState);
+}
+function square() {
+    calcState.num1 = parseInt(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML));
+    calcState.num2 = calcState.num1;
+    calcState.currentOperator = "multiplication";
+    process();
+    calcState.processFinished = true;
+    calcState.currentOperator = undefined;
+    calcState.num2Entered = false;
+    console.log("currentOperator " + calcState.currentOperator);
+}
+// Created 7/13/21 by Hongda Lin
+function equal(){
+    if(!calcState.processFinished){
+        process();
+        calcState.processFinished = true;
+    }
+    calcState.num2Entered = false;
+    calcState.currentOperator = "equal";
+    console.log(calcState);
 }
 
 //  Edited 7/10/21 by Samuel Gernstetter
 //      use name instead of class
+//  operators:[0:module, 1:square, 2:radic, 3:division, 4:multiplication, 5:subtraction, 6:addition]
 operators = document.getElementsByName("operator");
-operators[7].addEventListener("click", addition, false);
-operators[6].addEventListener("click", subtraction, false);
-operators[5].addEventListener("click", multiplication, false);
-operators[4].addEventListener("click", division, false);
+operators[6].addEventListener("click", addition, false);
+operators[5].addEventListener("click", subtraction, false);
+operators[4].addEventListener("click", multiplication, false);
+operators[3].addEventListener("click", division, false);
+operators[1].addEventListener("click", square, false);
 
 // Created 7/10/21 by Hongda Lin
 /*
 operators[2].addEventListener("click", radic, false);
 operators[1].addEventListener("click", square, false);
 oeprators[0].addEventListener("click", module, false);
-equal = document.getElementsByName("equal");
-*/
+ */
+
+// Created 7/13/21 by Hongda Lin
+// Implement equal button
+document.getElementsByName("equal")[0].addEventListener("click", equal, false);
+
+
 
 /*
-    when user click clear button C, all entry will be clear, object calcState reset to its initial value
-    when user click clear button CE, the last digit entered will be cleared, property num2 will reset to inital value
+    1. when user click clear button C, all entry will be clear, object calcState reset to its initial value
+    2. when user click clear button CE, num2 will reset to initial value, user could re-enter num2
  */
 //  Edited 7/10/21 by Samuel Gernstetter
 //      use name instead of class
@@ -141,17 +264,17 @@ document.getElementsByName("clear")[0].addEventListener("click", function (){
     calcState.num1 = undefined;
     calcState.num2 = undefined;
     calcState.currentOperator = undefined;
-    console.log("num1: " + calcState.num1);
-    console.log("num2: " + calcState.num2);
-    console.log("currentOperator: " + calcState.currentOperator);
+    calcState.num2Entered = false;
+    calcState.processFinished = false;
+    console.clear();
+    console.log(calcState);
 }, false);
 
 document.getElementsByName("clear")[1].addEventListener("click", function (){
     document.getElementsByClassName("calculator_display")[0].innerHTML = "0";
     calcState.num2 = undefined;
-    console.log("num1: " + calcState.num1);
-    console.log("num2: " + calcState.num2);
-    console.log("currentOperator: " + calcState.currentOperator);
+    console.clear();
+    console.log(calcState);
 }, false);
 
 
@@ -187,8 +310,16 @@ mc.addEventListener("click", memory_clear, false);
     Store the number displayed on screen to memory
  */
 function memory_store(){
-    memory.digits = display_to_float();
+        memory.digits = display_to_float()
 }
+
+/*
+function memory_store(memory){
+    let display = document.getElementsByClassName("calculator_display")[0].innerHTML;
+    display = display.replace(/,/g, "");
+    memory.digits = parseInt(display);
+}
+*/
 
 /* Enters the value stored in memory into the proper operand and displays
     that value on the calculator display.
@@ -210,14 +341,29 @@ function memory_recall(){
     Add the number on display to number stored in memory and store result
  */
 function memory_add(){
-    memory.digits = memory.digits + display_to_float();
+        memory.digits = memory.digits + display_to_float();
 }
+/*
+function memory_add(memory){
+    let display = document.getElementsByClassName("calculator_display")[0].innerHTML;
+    display = display.replace(/,/g, "");
+    let display_digits = parseInt(display)
+    memory.digits = memory.digits + display_digits;
+}
+*/
 
 /*
     Subtract number on display from number stored in memory and store result
  */
 function memory_subtract(){
     memory.digits = memory.digits - display_to_float();
+/*
+function memory_subtract(memory){
+    let display = document.getElementsByClassName("calculator_display")[0].innerHTML;
+    display = display.replace(/,/g, "");
+    let display_digits = parseInt(display)
+    memory.digits = memory.digits - display_digits;
+*/
 }
 
 /*
