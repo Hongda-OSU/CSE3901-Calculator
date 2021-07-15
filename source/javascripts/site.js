@@ -7,6 +7,8 @@
 //      create Calculator constructor function and Condition constructor function to generate object calcState using prototype chaining
 //Edited 7/15/21 by Madison Graziani
 //      added piPressed boolean to Condition()
+//  Edited 7/15/21 by Samuel Gernstetter
+//      add percentPressed boolean to Condition()
 function Calculator(){
     this.num1 = undefined;
     this.num2 = undefined;
@@ -16,6 +18,7 @@ function Condition(){
     this.num2Entered = false;
     this.processFinished = false;
     this.piPressed = false;
+    this.percentPressed = false;
     // this.sign = "positive";
 }
 // Use prototype chaining generate object calcState
@@ -98,6 +101,8 @@ function updateDecimal(){
 //      modification for square and radic button
 //  Edited 7/15/21 by Madison Graziani
 //     -Added functionality for pi button
+//  Edited 7/15/21 by Samuel Gernstetter
+//     add functionality for percent button
 function updateDigits() {
     /*
         1. when currentOperator isn't undefined and user is clicking the digit button, that means
@@ -106,10 +111,11 @@ function updateDigits() {
         3. If user click the equal button and then click digit button, num1 needs to be reset to initial value
      */
     let check = true;
-    if (calcState.currentOperator === "equal" || calcState.currentOperator === "square" || calcState.currentOperator === "radic"){
+    if (calcState.currentOperator === "equal" || calcState.currentOperator === "square" || calcState.currentOperator === "radic" || calcState.currentOperator === "percent"){
         calcState.num1 = undefined;
         calcState.currentOperator = undefined;
         calcState.processFinished = false;
+        calcState.percentPressed = false;
         check = false;
     }
     if (calcState.currentOperator !== undefined && !calcState.num2Entered) {
@@ -183,9 +189,14 @@ function putComma(val){
     return result.join("");
 }
 
+//  Edited 7/15/21 by Samuel Gernstetter
+//      add percent functionality
 function process() {
     if (calcState.num1 !== undefined) {
         calcState.num2 = parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML));
+        if (calcState.percentPressed) {
+            calcState.num2 = calcState.num1 * (calcState.num2 / 100);
+        }
         let outputIsNum = true;
         switch (calcState.currentOperator) {
             case "addition":
@@ -271,7 +282,7 @@ function division() {
 //  fix some logic and display problem
 function radic(){
     if (calcState.num1 === undefined || calcState.processFinished) {
-        if(parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML)) < 0){
+        if (parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML)) < 0){
             window.alert("Cannot square root negative number!");
             C_clear();
         }
@@ -279,8 +290,8 @@ function radic(){
         document.getElementsByClassName("calculator_display")[0].innerHTML = putComma(calcState.num1.toString());
         calcState.currentOperator = "radic";
         calcState.num2Entered = false;
-    }else {
-        if(parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML)) < 0){
+    } else {
+        if (parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML)) < 0){
             window.alert("Cannot square root negative number!");
             C_clear();
         }
@@ -308,6 +319,17 @@ function square() {
     }
     console.log(calcState);
 }
+// Created 7/15/21 by Samuel Gernstetter
+function percent() {
+    calcState.percentPressed = true;
+    if (!calcState.processFinished) {
+        process();
+        calcState.processFinished = true;
+    }
+    calcState.currentOperator = "percent";
+    calcState.num2Entered = false;
+    console.log(calcState);
+}
 // Created 7/13/21 by Hongda Lin
 function equal(){
     if(!calcState.processFinished){
@@ -324,6 +346,8 @@ function equal(){
 //  operators:[0:module, 1:square, 2:radic, 3:division, 4:multiplication, 5:subtraction, 6:addition]
 //  Edited 7/15/21 by Madison Graziani
 //      -Added listener to reset pi boolean
+//  Edited 7/15/21 by Samuel Gernstetter
+//      add modulo button
 operators = document.getElementsByName("operator");
 for (let i = 0; i < operators.length; i++){
     operators[i].addEventListener("click", resetPi, false);
@@ -334,6 +358,7 @@ operators[4].addEventListener("click", multiplication, false);
 operators[3].addEventListener("click", division, false);
 operators[2].addEventListener("click", radic, false);
 operators[1].addEventListener("click", square, false);
+operators[0].addEventListener("click", percent, false);
 
 // Created 7/10/21 by Hongda Lin
 /*
