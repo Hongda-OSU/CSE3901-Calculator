@@ -52,7 +52,7 @@ function updateDecimal(){
 //  Edited 7/13/21 by Hongda Lin
 //      modifications for equal button
 //  Edited 7/14/21 by Hongda Lin
-//      modification for square button, maybe also need to square root button
+//      modification for square and radic button
 function updateDigits() {
     /*
         1. when currentOperator isn't undefined and user is clicking the digit button, that means
@@ -61,7 +61,7 @@ function updateDigits() {
         3. If user click the equal button and then click digit button, num1 needs to be reset to initial value
      */
     let check = true;
-    if (calcState.currentOperator === "equal" || calcState.currentOperator === "square"){
+    if (calcState.currentOperator === "equal" || calcState.currentOperator === "square" || calcState.currentOperator === "radic"){
         calcState.num1 = undefined;
         calcState.currentOperator = undefined;
         calcState.processFinished = false;
@@ -198,6 +198,24 @@ function division() {
     console.log(calcState);
 }
 /*
+    Same logic as square button
+ */
+// Created 7/13/21 by Samuel Gernstetter
+// Edited 7/14/21 by Hongda Lin
+//  fix some logic and display problem
+function radic(){
+    if (calcState.num1 === undefined) {
+        calcState.num1 = Math.sqrt(parseInt(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML)));
+        document.getElementsByClassName("calculator_display")[0].innerHTML = putComma(calcState.num1.toString());
+        calcState.currentOperator = "radic";
+        calcState.num2Entered = false;
+    }else {
+        calcState.num2 = Math.sqrt(parseInt(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML)));
+        document.getElementsByClassName("calculator_display")[0].innerHTML = putComma(calcState.num2.toString());
+    }
+    console.log(calcState);
+}
+/*
     1. When user enter a number and click square button, if num1 is undefined, then update num1, set currentOperator to square
     2. If num1 is defined but num2 is not defined, it's likely user is doing other operation like 9+2^2, only update num2
  */
@@ -216,7 +234,6 @@ function square() {
     }
     console.log(calcState);
 }
-
 // Created 7/13/21 by Hongda Lin
 function equal(){
     if(!calcState.processFinished){
@@ -236,12 +253,11 @@ operators[6].addEventListener("click", addition, false);
 operators[5].addEventListener("click", subtraction, false);
 operators[4].addEventListener("click", multiplication, false);
 operators[3].addEventListener("click", division, false);
+operators[2].addEventListener("click", radic, false);
 operators[1].addEventListener("click", square, false);
 
 // Created 7/10/21 by Hongda Lin
 /*
-operators[2].addEventListener("click", radic, false);
-operators[1].addEventListener("click", square, false);
 oeprators[0].addEventListener("click", module, false);
  */
 
