@@ -13,7 +13,8 @@ body {
 /* the body of calculator */
 table {
   box-sizing: border-box;
-  background-color: #fff;
+  //background-color: #fff;
+  background: rgb(150, 150, 150) linear-gradient(0deg, rgba(68, 90, 90, 1) 0%, rgba(135, 157, 157, 1) 40%, rgba(220, 242, 242, 1) 100%);//Added 7/12/21 by Madison
   border: solid #000 2px;
   border-bottom-left-radius: 7px;
   border-bottom-right-radius: 7px;
@@ -44,7 +45,10 @@ button, input {
   width: 80px;
   height: 50px;
   border: solid #000 1px;
-  outline: none;
+  border-radius: 15px; //Added 7/12/21 by Madison
+  background: rgb(255, 255, 255) linear-gradient(330deg, rgba(245, 255, 255, 1) 0%, rgba(199, 209, 209, 1) 100%); //Added 7/12/21 by Madison
+  box-shadow: -3px -3px 5px rgba(0, 0, 0, 0.25);//Added 7/12/21 by Madison
+  outline: solid #696969 1px;//Added 7/12/21 by Madison
   font-size: 1.5rem;
   margin: 5px 8px;
 }
