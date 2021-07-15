@@ -12,6 +12,16 @@ calcState = {
 };
 
 /*
+    Created by Drew Jackson 7/15
+    Object to store mathematical constants
+ */
+constants = {
+    pi: 3.14,
+    e:  2.71828
+    
+}
+
+/*
     give each digit button an event listener to update screen
  */
 
@@ -91,7 +101,7 @@ function updateDigits() {
     Convert string of number on display to numeric value
  */
 function display_to_float() {
-    var display = document.getElementsByClassName("calculator_display")[0].innerHTML;
+    let display = document.getElementsByClassName("calculator_display")[0].innerHTML;
     display = display.replace(/,/g, "");
     return parseFloat(display);
 }
@@ -271,7 +281,7 @@ operators[1].addEventListener("click", square, false);
 
 // Created 7/10/21 by Hongda Lin
 /*
-oeprators[0].addEventListener("click", module, false);
+operators[0].addEventListener("click", module, false);
  */
 
 // Created 7/13/21 by Hongda Lin
@@ -316,12 +326,49 @@ memory = { digits: 0.0
 }
 
 //Listeners for each memory button
+//
+// document.getElementById("ms").addEventListener("click", memory_store, false);
+//
+// document.getElementById('mr').addEventListener("click", memory_recall, false);
+//
+// document.getElementById("mplus").addEventListener("click", memory_add, false);
 
-document.getElementById("ms").addEventListener("click", memory_store, false);
+//TODO create table to parse requested function
+memoryButtons = document.getElementsByName("memory");
+for (let i = 0; i < memoryButtons.length; i++){
+    memoryButtons[i].addEventListener("click", function(){ accessMemory(memoryButtons[i].value); }, false);
+}
 
-document.getElementById('mr').addEventListener("click", memory_recall, false);
+//function () {accessMemory(memoryButtons[i].innerHTML)}
+//function(){ accessMemory(memoryButtons[i].innerHTML); }
+function something(){
+    console.log("test");
+    accessMemory("MS");
+}
 
-document.getElementById("mplus").addEventListener("click", memory_add, false);
+
+function accessMemory(button){
+    console.log("accessMemory")
+    switch (button) {
+        case "MC":
+            memory_clear();
+            break;
+        case "MR":
+            memory_recall();
+            break;
+        case "M+":
+            memory_add();
+            break;
+        case "M-":
+            memory_subtract();
+            break;
+        case "MS":
+            memory_store();
+            break;
+        default:
+            console.log("No match: " + button);
+        }
+}
 
 //TODO add buttons
 
@@ -340,18 +387,12 @@ mc.addEventListener("click", memory_clear, false);
  */
 function memory_store(){
         memory.digits = display_to_float()
+        console.log(memory.digits)
 }
 
 /*
-function memory_store(memory){
-    let display = document.getElementsByClassName("calculator_display")[0].innerHTML;
-    display = display.replace(/,/g, "");
-    memory.digits = Number(parseFloat(display).toPrecision(15));
-}
-*/
-
-/* Enters the value stored in memory into the proper operand and displays
-    that value on the calculator display.
+    Recalls value stored in memory, shows on calculator display,
+    updates appropriate calcState num with stored value.
  */
 
 function memory_recall(){
@@ -360,39 +401,32 @@ function memory_recall(){
     }
     else {
         calcState.num2 = memory.digits;
+        //allows operation to continue
+        calcState.num2Entered = true;
     }
-    // How is display updated after operation to have commas
-    document.getElementById("calculator_display").innerHTML = memory.digits;
-    updateDigits();
+    //update display
+    document.getElementsByName("display")[0].innerHTML = putComma(memory.digits.toString());
+    //Debugging outputs
+    console.log("MR")
+    console.log("num1 = " + calcState.num1 + " num2 = " + calcState.num2)
 }
 
 /*
     Add the number on display to number stored in memory and store result
  */
 function memory_add(){
-        memory.digits = memory.digits + display_to_float();
+    memory.digits = memory.digits + display_to_float();
+    //Debugging output
+    console.log("M+")
 }
-/*
-function memory_add(memory){
-    let display = document.getElementsByClassName("calculator_display")[0].innerHTML;
-    display = display.replace(/,/g, "");
-    let display_digits = Number(parseFloat(display).toPrecision(15))
-    memory.digits = memory.digits + display_digits;
-}
-*/
 
 /*
     Subtract number on display from number stored in memory and store result
  */
 function memory_subtract(){
     memory.digits = memory.digits - display_to_float();
-/*
-function memory_subtract(memory){
-    let display = document.getElementsByClassName("calculator_display")[0].innerHTML;
-    display = display.replace(/,/g, "");
-    let display_digits = Number(parseFloat(display).toPrecision(15))
-    memory.digits = memory.digits - display_digits;
-*/
+    //Debugging output
+    console.log("M-")
 }
 
 /*
@@ -400,4 +434,6 @@ function memory_subtract(memory){
  */
 function memory_clear(){
     memory.digits = 0.0;
+    //Debugging output
+    console.log("MC")
 }
