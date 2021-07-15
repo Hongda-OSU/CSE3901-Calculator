@@ -205,7 +205,7 @@ function division() {
 // Edited 7/14/21 by Hongda Lin
 //  fix some logic and display problem
 function radic(){
-    if (calcState.num1 === undefined && calcState.currentOperator === "radic") {
+    if (calcState.num1 === undefined || calcState.currentOperator === "radic") {
         calcState.num1 = Math.sqrt(parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML)));
         document.getElementsByClassName("calculator_display")[0].innerHTML = putComma(calcState.num1.toString());
         calcState.currentOperator = "radic";
@@ -224,7 +224,7 @@ function radic(){
 // Edited 7/14/21 by Hongda Lin
 //  fix some logic and display problem
 function square() {
-    if (calcState.num1 === undefined && calcState.currentOperator === "square") {
+    if (calcState.num1 === undefined || calcState.currentOperator === "square") {
         calcState.num1 = Math.pow(parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML)), 2);
         document.getElementsByClassName("calculator_display")[0].innerHTML = putComma(calcState.num1.toString());
         calcState.currentOperator = "square";
