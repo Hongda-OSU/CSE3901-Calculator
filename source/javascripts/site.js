@@ -18,13 +18,11 @@ calcState = {
 constants = {
     pi: 3.14,
     e:  2.71828
-    
 }
 
 /*
     give each digit button an event listener to update screen
  */
-
 
 //Created on ___ by Hongda Lin
 //Edited 7/9/21 by Madison Graziani
@@ -141,6 +139,7 @@ function putComma(val){
     return result.join("");
 }
 
+//TODO add comments, author and algorithm in block
 function process() {
     if (calcState.num1 !== undefined) {
         calcState.num2 = parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML));
@@ -171,9 +170,13 @@ function process() {
             document.getElementsByClassName("calculator_display")[0].innerHTML = putComma(calcState.num1.toString());
         }
         calcState.num2 = undefined;
+        //TODO test by drew
+        //calcState.currentOperator = undefined;
     } else {
         calcState.num1 = Number(parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML)).toPrecision(15));
     }
+    //TODO test by drew
+    //calcState.currentOperator = undefined;
 }
 
 /*
@@ -317,36 +320,25 @@ document.getElementsByName("clear")[1].addEventListener("click", function (){
 }, false);
 
 
-
-/*Created by Drew Jackson 7/9/21*/
-/*
+/*Created by Drew Jackson 7/9/21
     Object holding stored value in memory
  */
-memory = { digits: 0.0
+memory = {
+    digits: 0.0
 }
 
-//Listeners for each memory button
-//
-// document.getElementById("ms").addEventListener("click", memory_store, false);
-//
-// document.getElementById('mr').addEventListener("click", memory_recall, false);
-//
-// document.getElementById("mplus").addEventListener("click", memory_add, false);
-
-//TODO create table to parse requested function
+/*Created by Drew Jackson 7/9/21
+  Edited by Drew Jackson on 7/14/21 to use a loop
+    Create listeners for each memory button
+ */
 memoryButtons = document.getElementsByName("memory");
 for (let i = 0; i < memoryButtons.length; i++){
     memoryButtons[i].addEventListener("click", function(){ accessMemory(memoryButtons[i].value); }, false);
 }
 
-//function () {accessMemory(memoryButtons[i].innerHTML)}
-//function(){ accessMemory(memoryButtons[i].innerHTML); }
-function something(){
-    console.log("test");
-    accessMemory("MS");
-}
-
-
+/*Created by Drew Jackson 7/14/21
+    Choose the right function from memory button pressed.
+ */
 function accessMemory(button){
     console.log("accessMemory")
     switch (button) {
@@ -370,19 +362,9 @@ function accessMemory(button){
         }
 }
 
-//TODO add buttons
-
-/* Not yet on calculator
-let msub = document.getElementById("msub");
-msub.addEventListener("click", memory_subtract, false);
-
-let mc = document.getElementById("mc");
-mc.addEventListener("click", memory_clear, false);
-*/
-
 //Functions for memory listeners
 
-/*
+/*Created by Drew Jackson 7/9/21
     Store the number displayed on screen to memory
  */
 function memory_store(){
@@ -390,7 +372,7 @@ function memory_store(){
         console.log(memory.digits)
 }
 
-/*
+/*Created by Drew Jackson 7/9/21
     Recalls value stored in memory, shows on calculator display,
     updates appropriate calcState num with stored value.
  */
@@ -406,34 +388,63 @@ function memory_recall(){
     }
     //update display
     document.getElementsByName("display")[0].innerHTML = putComma(memory.digits.toString());
+
     //Debugging outputs
-    console.log("MR")
-    console.log("num1 = " + calcState.num1 + " num2 = " + calcState.num2)
+    //console.log("MR")
+    //console.log("num1 = " + calcState.num1 + " num2 = " + calcState.num2)
 }
 
-/*
+/*Created by Drew Jackson 7/9/21
     Add the number on display to number stored in memory and store result
  */
 function memory_add(){
     memory.digits = memory.digits + display_to_float();
     //Debugging output
-    console.log("M+")
+    //console.log("M+")
 }
 
-/*
+/*Created by Drew Jackson 7/9/21
     Subtract number on display from number stored in memory and store result
  */
 function memory_subtract(){
     memory.digits = memory.digits - display_to_float();
     //Debugging output
-    console.log("M-")
+    //console.log("M-")
 }
 
-/*
+/*Created by Drew Jackson 7/9/21
     Clears memory by setting to zero
  */
 function memory_clear(){
     memory.digits = 0.0;
     //Debugging output
-    console.log("MC")
+    //console.log("MC")
+}
+
+//create listener for delete button
+document.getElementsByName("display")[1].addEventListener("click", deleteAction, false);
+
+/*Created by Drew Jackson 7/15/21
+    Deletes the trailing number on the display, and removes trailing commas
+ */
+function deleteAction(){
+    //delete trailing number from display value
+    let display = document.getElementsByName("display")[0].innerHTML;
+    display = display.substring(0,display.length-1);
+
+    //format new display value with appropriate commas
+    display = putComma(parseFloat(filterComma(display)).toString());
+
+    //update values
+    document.getElementsByName("display")[0].innerHTML = display
+    if (calcState.currentOperator === undefined || (calcState.currentOperator == "equal" && calcState.processFinished)){
+         calcState.num1 = display_to_float();
+     }
+    else{
+        calcState.num2 = display_to_float();
+        calcState.num2Entered = true;
+        calcState.processFinished = false;
+        //Debug
+        //console.log("num2 " + calcState.num2 + calcState.num2Entered)
+    }
 }
