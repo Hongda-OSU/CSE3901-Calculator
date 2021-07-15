@@ -121,7 +121,7 @@ function putComma(val){
 
 function process() {
     if (calcState.num1 !== undefined) {
-        calcState.num2 = parseInt(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML));
+        calcState.num2 = parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML));
         let outputIsNum = true;
         switch (calcState.currentOperator) {
             case "addition":
@@ -144,12 +144,13 @@ function process() {
             default:
         }
         if (outputIsNum) {
+            calcState.num1 = Number(calcState.num1.toPrecision(15))
             console.log(calcState);
             document.getElementsByClassName("calculator_display")[0].innerHTML = putComma(calcState.num1.toString());
         }
         calcState.num2 = undefined;
     } else {
-        calcState.num1 = parseInt(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML));
+        calcState.num1 = Number(parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML)).toPrecision(15));
     }
 }
 
@@ -205,12 +206,12 @@ function division() {
 //  fix some logic and display problem
 function radic(){
     if (calcState.num1 === undefined) {
-        calcState.num1 = Math.sqrt(parseInt(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML)));
+        calcState.num1 = Math.sqrt(parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML)));
         document.getElementsByClassName("calculator_display")[0].innerHTML = putComma(calcState.num1.toString());
         calcState.currentOperator = "radic";
         calcState.num2Entered = false;
     }else {
-        calcState.num2 = Math.sqrt(parseInt(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML)));
+        calcState.num2 = Math.sqrt(parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML)));
         document.getElementsByClassName("calculator_display")[0].innerHTML = putComma(calcState.num2.toString());
     }
     console.log(calcState);
@@ -224,12 +225,12 @@ function radic(){
 //  fix some logic and display problem
 function square() {
     if (calcState.num1 === undefined) {
-        calcState.num1 = Math.pow(parseInt(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML)), 2);
+        calcState.num1 = Math.pow(parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML)), 2);
         document.getElementsByClassName("calculator_display")[0].innerHTML = putComma(calcState.num1.toString());
         calcState.currentOperator = "square";
         calcState.num2Entered = false;
     }else {
-        calcState.num2 = Math.pow(parseInt(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML)), 2);
+        calcState.num2 = Math.pow(parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML)), 2);
         document.getElementsByClassName("calculator_display")[0].innerHTML = putComma(calcState.num2.toString());
     }
     console.log(calcState);
@@ -336,7 +337,7 @@ mc.addEventListener("click", memory_clear, false);
 function memory_store(memory){
     let display = document.getElementsByClassName("calculator_display")[0].innerHTML;
     display = display.replace(/,/g, "");
-    memory.digits = parseInt(display);
+    memory.digits = Number(parseFloat(display).toPrecision(15));
 }
 
 //TODO
@@ -350,7 +351,7 @@ function memory_recall(memory){
 function memory_add(memory){
     let display = document.getElementsByClassName("calculator_display")[0].innerHTML;
     display = display.replace(/,/g, "");
-    let display_digits = parseInt(display)
+    let display_digits = Number(parseFloat(display).toPrecision(15))
     memory.digits = memory.digits + display_digits;
 }
 
@@ -360,7 +361,7 @@ function memory_add(memory){
 function memory_subtract(memory){
     let display = document.getElementsByClassName("calculator_display")[0].innerHTML;
     display = display.replace(/,/g, "");
-    let display_digits = parseInt(display)
+    let display_digits = Number(parseFloat(display).toPrecision(15))
     memory.digits = memory.digits - display_digits;
 }
 
