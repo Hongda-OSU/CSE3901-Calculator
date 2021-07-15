@@ -5,7 +5,8 @@
 //      add two properties num2Entered and processFinished to solve display problem
 // Edited 7/15/21 by Hongda Lin
 //      create Calculator constructor function and Condition constructor function to generate object calcState using prototype chaining
-
+//Edited 7/15/21 by Madison Graziani
+//      added piPressed boolean to Condition()
 function Calculator(){
     this.num1 = undefined;
     this.num2 = undefined;
@@ -14,6 +15,7 @@ function Calculator(){
 function Condition(){
     this.num2Entered = false;
     this.processFinished = false;
+    this.piPressed = false;
     // this.sign = "positive";
 }
 // Use prototype chaining generate object calcState
@@ -50,6 +52,24 @@ for (let i = 0; i < digits.length; i++){
 decimal = document.getElementsByName("decimal")[0];
 decimal.addEventListener("click", updateDecimal, false);
 
+//Created 7/15/21 by Madison Graziani
+//      Adds listener to pi button
+pi = document.getElementsByName("special")[0];
+pi.addEventListener("click", updatePi, false);
+
+//Created 7/15/21 by Madison Graziani
+//      Sets piPressed to true then calls updateDigits() to display pi
+function updatePi(){
+    calcState.piPressed = true;
+    updateDigits();
+}
+
+//Created 7/15/21 by Madison Graziani
+//      Sets piPressed to false after any operator button is pushed
+function resetPi(){
+    calcState.piPressed = false;
+}
+
 /*
     when user click decimal button, update screen and num1/num2 should be float
  */
@@ -76,6 +96,8 @@ function updateDecimal(){
 //      modifications for equal button
 //  Edited 7/14/21 by Hongda Lin
 //      modification for square and radic button
+//  Edited 7/15/21 by Madison Graziani
+//     -Added functionality for pi button
 function updateDigits() {
     /*
         1. when currentOperator isn't undefined and user is clicking the digit button, that means
@@ -91,7 +113,13 @@ function updateDigits() {
         check = false;
     }
     if (calcState.currentOperator !== undefined && !calcState.num2Entered) {
-        document.getElementsByClassName("calculator_display")[0].innerHTML = this.innerHTML;
+        //Sets display to pi for second number if pi button has been pressed after operator
+        if(calcState.piPressed){
+            document.getElementsByClassName("calculator_display")[0].innerHTML = constants.pi;
+        }
+        else{
+            document.getElementsByClassName("calculator_display")[0].innerHTML = this.innerHTML;
+        }
         calcState.num2Entered = true;
         calcState.processFinished = false;
     } else {
@@ -100,7 +128,12 @@ function updateDigits() {
         if (currVal !== "0" && check) {
             newVal = filterComma(currVal + this.innerHTML);
             document.getElementsByClassName("calculator_display")[0].innerHTML = putComma(newVal);
-        } else {
+        }
+        //After pi is pressed, keeps it as pi until operator is pressed
+        else if(calcState.piPressed){
+            document.getElementsByClassName("calculator_display")[0].innerHTML = constants.pi;
+        }
+        else {
             document.getElementsByClassName("calculator_display")[0].innerHTML = this.innerHTML;
         }
     }
@@ -289,7 +322,12 @@ function equal(){
 //  Edited 7/10/21 by Samuel Gernstetter
 //      use name instead of class
 //  operators:[0:module, 1:square, 2:radic, 3:division, 4:multiplication, 5:subtraction, 6:addition]
+//  Edited 7/15/21 by Madison Graziani
+//      -Added listener to reset pi boolean
 operators = document.getElementsByName("operator");
+for (let i = 0; i < operators.length; i++){
+    operators[i].addEventListener("click", resetPi, false);
+}
 operators[6].addEventListener("click", addition, false);
 operators[5].addEventListener("click", subtraction, false);
 operators[4].addEventListener("click", multiplication, false);
@@ -304,6 +342,9 @@ operators[0].addEventListener("click", module, false);
 
 // Created 7/13/21 by Hongda Lin
 // Implement equal button
+//  Edited 7/15/21 by Madison Graziani
+//      -Added listener to reset pi boolean
+document.getElementsByName("equal")[0].addEventListener("click", resetPi, false);
 document.getElementsByName("equal")[0].addEventListener("click", equal, false);
 
 /*
@@ -313,7 +354,10 @@ document.getElementsByName("equal")[0].addEventListener("click", equal, false);
 //  Edited 7/10/21 by Samuel Gernstetter
 //      use name instead of class
 //  Edited 7/10/21 by Hongda Lin
-//      finish implementing clear buttons
+//      finish implementing clear
+//  Edited 7/15/21 by Madison Graziani
+//      -Added listener to reset pi boolean
+document.getElementsByName("clear")[0].addEventListener("click", resetPi, false);
 document.getElementsByName("clear")[0].addEventListener("click", C_clear, false);
 
 function C_clear(){
@@ -327,6 +371,9 @@ function C_clear(){
     console.log(calcState);
 }
 
+//  Edited 7/15/21 by Madison Graziani
+//      -Added listener to reset pi boolean 
+document.getElementsByName("clear")[1].addEventListener("click", resetPi, false);
 document.getElementsByName("clear")[1].addEventListener("click", CE_clear, false);
 
 function CE_clear(){
