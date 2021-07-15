@@ -55,6 +55,8 @@ function updateDecimal(){
 //      separate filter function and fix digit display problem
 //  Edited 7/13/21 by Hongda Lin
 //      modifications for equal button
+//  Edited 7/14/21 by Hongda Lin
+//      modification for square and radic button
 function updateDigits() {
     /*
         1. when currentOperator isn't undefined and user is clicking the digit button, that means
@@ -63,7 +65,7 @@ function updateDigits() {
         3. If user click the equal button and then click digit button, num1 needs to be reset to initial value
      */
     let check = true;
-    if (calcState.currentOperator === "equal"){
+    if (calcState.currentOperator === "equal" || calcState.currentOperator === "square" || calcState.currentOperator === "radic"){
         calcState.num1 = undefined;
         calcState.currentOperator = undefined;
         calcState.processFinished = false;
@@ -131,7 +133,7 @@ function putComma(val){
 
 function process() {
     if (calcState.num1 !== undefined) {
-        calcState.num2 = parseInt(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML));
+        calcState.num2 = parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML));
         let outputIsNum = true;
         switch (calcState.currentOperator) {
             case "addition":
@@ -154,12 +156,13 @@ function process() {
             default:
         }
         if (outputIsNum) {
+            calcState.num1 = Number(calcState.num1.toPrecision(15))
             console.log(calcState);
             document.getElementsByClassName("calculator_display")[0].innerHTML = putComma(calcState.num1.toString());
         }
         calcState.num2 = undefined;
     } else {
-        calcState.num1 = parseInt(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML));
+        calcState.num1 = Number(parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML)).toPrecision(15));
     }
 }
 
@@ -207,15 +210,42 @@ function division() {
     calcState.num2Entered = false;
     console.log(calcState);
 }
+/*
+    Same logic as square button
+ */
+// Created 7/13/21 by Samuel Gernstetter
+// Edited 7/14/21 by Hongda Lin
+//  fix some logic and display problem
+function radic(){
+    if (calcState.num1 === undefined || calcState.currentOperator === "radic") {
+        calcState.num1 = Math.sqrt(parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML)));
+        document.getElementsByClassName("calculator_display")[0].innerHTML = putComma(calcState.num1.toString());
+        calcState.currentOperator = "radic";
+        calcState.num2Entered = false;
+    }else {
+        calcState.num2 = Math.sqrt(parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML)));
+        document.getElementsByClassName("calculator_display")[0].innerHTML = putComma(calcState.num2.toString());
+    }
+    console.log(calcState);
+}
+/*
+    1. When user enter a number and click square button, if num1 is undefined, then update num1, set currentOperator to square
+    2. If num1 is defined but num2 is not defined, it's likely user is doing other operation like 9+2^2, only update num2
+ */
+// Created 7/13/21 by Samuel Gernstetter
+// Edited 7/14/21 by Hongda Lin
+//  fix some logic and display problem
 function square() {
-    calcState.num1 = parseInt(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML));
-    calcState.num2 = calcState.num1;
-    calcState.currentOperator = "multiplication";
-    process();
-    calcState.processFinished = true;
-    calcState.currentOperator = undefined;
-    calcState.num2Entered = false;
-    console.log("currentOperator " + calcState.currentOperator);
+    if (calcState.num1 === undefined || calcState.currentOperator === "square") {
+        calcState.num1 = Math.pow(parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML)), 2);
+        document.getElementsByClassName("calculator_display")[0].innerHTML = putComma(calcState.num1.toString());
+        calcState.currentOperator = "square";
+        calcState.num2Entered = false;
+    }else {
+        calcState.num2 = Math.pow(parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML)), 2);
+        document.getElementsByClassName("calculator_display")[0].innerHTML = putComma(calcState.num2.toString());
+    }
+    console.log(calcState);
 }
 // Created 7/13/21 by Hongda Lin
 function equal(){
@@ -236,12 +266,11 @@ operators[6].addEventListener("click", addition, false);
 operators[5].addEventListener("click", subtraction, false);
 operators[4].addEventListener("click", multiplication, false);
 operators[3].addEventListener("click", division, false);
+operators[2].addEventListener("click", radic, false);
 operators[1].addEventListener("click", square, false);
 
 // Created 7/10/21 by Hongda Lin
 /*
-operators[2].addEventListener("click", radic, false);
-operators[1].addEventListener("click", square, false);
 oeprators[0].addEventListener("click", module, false);
  */
 
@@ -317,7 +346,7 @@ function memory_store(){
 function memory_store(memory){
     let display = document.getElementsByClassName("calculator_display")[0].innerHTML;
     display = display.replace(/,/g, "");
-    memory.digits = parseInt(display);
+    memory.digits = Number(parseFloat(display).toPrecision(15));
 }
 */
 
@@ -347,7 +376,7 @@ function memory_add(){
 function memory_add(memory){
     let display = document.getElementsByClassName("calculator_display")[0].innerHTML;
     display = display.replace(/,/g, "");
-    let display_digits = parseInt(display)
+    let display_digits = Number(parseFloat(display).toPrecision(15))
     memory.digits = memory.digits + display_digits;
 }
 */
@@ -361,7 +390,7 @@ function memory_subtract(){
 function memory_subtract(memory){
     let display = document.getElementsByClassName("calculator_display")[0].innerHTML;
     display = display.replace(/,/g, "");
-    let display_digits = parseInt(display)
+    let display_digits = Number(parseFloat(display).toPrecision(15))
     memory.digits = memory.digits - display_digits;
 */
 }
