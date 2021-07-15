@@ -170,7 +170,8 @@ function process() {
                 if (calcState.num2 !== 0) {
                     calcState.num1 = calcState.num1 / calcState.num2;
                 } else {
-                    document.getElementsByClassName("calculator_display")[0].innerHTML = "Cannot divide by zero";
+                    window.alert("Cannot divide by zero!");
+                    C_clear();
                     outputIsNum = false;
                 }
                 break;
@@ -238,12 +239,20 @@ function division() {
 // Edited 7/14/21 by Hongda Lin
 //  fix some logic and display problem
 function radic(){
-    if (calcState.num1 === undefined || calcState.currentOperator === "radic") {
+    if (calcState.num1 === undefined || calcState.processFinished) {
+        if(parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML)) < 0){
+            window.alert("Cannot square root negative number!");
+            C_clear();
+        }
         calcState.num1 = Math.sqrt(parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML)));
         document.getElementsByClassName("calculator_display")[0].innerHTML = putComma(calcState.num1.toString());
         calcState.currentOperator = "radic";
         calcState.num2Entered = false;
     }else {
+        if(parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML)) < 0){
+            window.alert("Cannot square root negative number!");
+            C_clear();
+        }
         calcState.num2 = Math.sqrt(parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML)));
         document.getElementsByClassName("calculator_display")[0].innerHTML = putComma(calcState.num2.toString());
     }
@@ -257,7 +266,7 @@ function radic(){
 // Edited 7/14/21 by Hongda Lin
 //  fix some logic and display problem
 function square() {
-    if (calcState.num1 === undefined || calcState.currentOperator === "square") {
+    if (calcState.num1 === undefined || calcState.processFinished) {
         calcState.num1 = Math.pow(parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML)), 2);
         document.getElementsByClassName("calculator_display")[0].innerHTML = putComma(calcState.num1.toString());
         calcState.currentOperator = "square";
@@ -309,7 +318,9 @@ document.getElementsByName("equal")[0].addEventListener("click", equal, false);
 //      use name instead of class
 //  Edited 7/10/21 by Hongda Lin
 //      finish implementing clear buttons
-document.getElementsByName("clear")[0].addEventListener("click", function (){
+document.getElementsByName("clear")[0].addEventListener("click", C_clear, false);
+
+function C_clear(){
     document.getElementsByClassName("calculator_display")[0].innerHTML = "0";
     calcState.num1 = undefined;
     calcState.num2 = undefined;
@@ -318,14 +329,16 @@ document.getElementsByName("clear")[0].addEventListener("click", function (){
     calcState.processFinished = false;
     console.clear();
     console.log(calcState);
-}, false);
+}
 
-document.getElementsByName("clear")[1].addEventListener("click", function (){
+document.getElementsByName("clear")[1].addEventListener("click", CE_clear, false);
+
+function CE_clear(){
     document.getElementsByClassName("calculator_display")[0].innerHTML = "0";
     calcState.num2 = undefined;
     console.clear();
     console.log(calcState);
-}, false);
+}
 
 
 
