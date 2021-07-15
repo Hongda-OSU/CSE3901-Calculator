@@ -3,13 +3,24 @@
 //      use object instead of global variables
 //  Edited 7/10/21 by Hongda Lin
 //      add two properties num2Entered and processFinished to solve display problem
-calcState = {
-    num1: undefined,
-    num2: undefined,
-    currentOperator: undefined,
-    num2Entered: false,
-    processFinished: false,
-};
+// Edited 7/15/21 by Hongda Lin
+//      create Calculator constructor function and Condition constructor function to generate object calcState using prototype chaining
+
+function Calculator(){
+    this.num1 = undefined;
+    this.num2 = undefined;
+    this.currentOperator = undefined;
+}
+function Condition(){
+    this.num2Entered = false;
+    this.processFinished = false;
+    this.sign = "positive";
+}
+// Use prototype chaining generate object calcState
+Calculator.prototype = new Condition();
+Calculator.prototype.constructor = Calculator;
+let calcState = new Calculator();
+
 
 /*
     give each digit button an event listener to update screen
