@@ -13,6 +13,7 @@ Also list if people worked together (pair programmed) on a particular section.
 
 * Drew Jackson: Implemented all memory buttons, delete buttons and functionality. Created parser function(filterCommas) to convert string with commas to float.
 * Samuel Gernstetter: created first set of event listeners, created first iteration of process function and operation functions, reworked HTML and JS to use some names instead of values, created object to hold calculator state, created square and percent functions
+* Madison Graziani: Implemented pi, sign change, and mod buttons. Implemented basic updateDigits before operators were added. Changed around/added HTML buttons.
 
 ### Calculator object visible properties
 * num1 for first input
@@ -22,8 +23,8 @@ Also list if people worked together (pair programmed) on a particular section.
 ### Calculator object hidden properties
 * num2Entered checks whether num2 is entered
 * processFinished checks whether current operation is finished
+* piPressed checks whether the pi button has been clicked
 * percentPressed checks whether the percent button was pressed to evaluate the operation
-* sign 
 
 ### Display
 
