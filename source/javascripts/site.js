@@ -463,6 +463,7 @@ function accessMemory(button){
             memory_store();
             break;
         default:
+            //for debugging
             console.log("No match: " + button);
         }
 }
@@ -474,7 +475,8 @@ function accessMemory(button){
 */
 function memory_store(){
         memory.digits = display_to_float()
-        console.log(memory.digits)
+        //Debugging
+        //console.log(memory.digits)
 }
 
 /*Created by Drew Jackson 7/9/21
@@ -535,7 +537,7 @@ document.getElementsByName("display")[1].addEventListener("click", deleteAction,
 function deleteAction(){
     let display = document.getElementsByName("display")[0].innerHTML;
 
-    if(display.length == 1){
+    if(display.length == 1 || (display.length == 2 && display[0] == "-")){
         display = "0";
     }
     else {
