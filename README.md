@@ -77,3 +77,9 @@ Also list if people worked together (pair programmed) on a particular section.
 * MR: Presents stored value on calculator display and assigns value to appropriate operand.
 * M+: Adds the currently displayed value to the value stored in memory. Does not change display.
 * M-: Subtracts the currently displayed value to the value stored in memory. Does not change display.
+
+### Other buttons
+* Sign(+/-): Clicking the button switches the sign of the number on display to its opposite.
+* Pi: Clicking this button inserts the value pi to the display.
+* Equal: Clicking this button will evaluate the current expression if applicable.
+* Decimal point: Clicking this button adds a decimal point for a float number.
