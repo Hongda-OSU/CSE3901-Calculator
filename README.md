@@ -11,6 +11,8 @@
 Please list who did what for each part of the project.
 Also list if people worked together (pair programmed) on a particular section.
 
+* Drew Jackson: Implemented all memory buttons, delete buttons and functionality. Created parser function(filterCommas) to convert string with commas to float.
+
 ### Calculator object visible properties
 * num1 for first input
 * num2 is needed for operations to proceed expect Square and Radic
@@ -56,3 +58,11 @@ Also list if people worked together (pair programmed) on a particular section.
 ### Clear buttons
 * C: when user click clear button C, all entry will be clear, object calcState reset to its initial value
 * CE: when user click clear button CE, num2 will reset to initial value, user could re-enter num2 to continue previous operation.
+* Delete: removes the trailing digit from the displayed number, updates stored value, sets value to zero if deleting last digit.
+
+### Memory buttons
+* MS: Clicking button stores the value presented on calculator display in a memory object.
+* MC: Clicking button clears the stored memory, sets it to zero.
+* MR: Presents stored value on calculator display and assigns value to appropriate operand.
+* M+: Adds the currently displayed value to the value stored in memory. Does not change display.
+* M-: Subtracts the currently displayed value to the value stored in memory. Does not change display.

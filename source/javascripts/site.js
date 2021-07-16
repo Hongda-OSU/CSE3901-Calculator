@@ -74,6 +74,27 @@ function resetPi(){
     calcState.piPressed = false;
 }
 
+//Created 7/15/21 by Madison Graziani
+//      Adds listener to sign button
+document.getElementsByName("sign")[0].addEventListener("click", updateSign, false);
+
+//Created 7/15/21 by Madison Graziani
+//      Flips the sign of whichever number is on-screen
+function updateSign(){
+    if(calcState.currentOperator === undefined){
+        calcState.num1 = -1 * parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML));
+        calcState.num1 = Number(calcState.num1.toPrecision(15))
+        console.log(calcState);
+        document.getElementsByClassName("calculator_display")[0].innerHTML = putComma(calcState.num1.toString());
+    }
+    else if(calcState.currentOperator !== undefined && calcState.num2Entered){
+        calcState.num2 = -1 * parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML));
+        calcState.num2 = Number(calcState.num2.toPrecision(15))
+        console.log(calcState);
+        document.getElementsByClassName("calculator_display")[0].innerHTML = putComma(calcState.num2.toString());
+    }
+}
+
 /*
     when user click decimal button, update screen and num1/num2 should be float
  */
@@ -195,6 +216,8 @@ function putComma(val){
 //      some modifications base on the updates in operation functions
 //  Edited 7/15/21 by Samuel Gernstetter
 //      add percent functionality
+//  Edited 7/15/21 by Madison Graziani
+//      -Added mod
 function process() {
     if (calcState.num1 !== undefined) {
         calcState.num2 = parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML));
@@ -211,6 +234,9 @@ function process() {
                 break;
             case "multiplication":
                 calcState.num1 = calcState.num1 * calcState.num2;
+                break;
+            case "mod":
+                calcState.num1 = calcState.num1 % calcState.num2;
                 break;
             case "division":
                 if (calcState.num2 !== 0) {
@@ -279,6 +305,17 @@ function division() {
         calcState.processFinished = true;
     }
     calcState.currentOperator = "division";
+    calcState.num2Entered = false;
+    console.log(calcState);
+}
+
+//Created 7/15/21 by Madison Graziani
+function mod() {
+    if(!calcState.processFinished){
+        process();
+        calcState.processFinished = true;
+    }
+    calcState.currentOperator = "mod";
     calcState.num2Entered = false;
     console.log(calcState);
 }
@@ -364,7 +401,9 @@ function equal(){
 //  Edited 7/15/21 by Madison Graziani
 //      -Added listener to reset pi boolean
 //  Edited 7/15/21 by Samuel Gernstetter
-//      add modulo button
+//      added percent button
+//  Edited 7/15/21 by Madison Graziani
+//      -Added mod button
 /*
     creates event listeners for the operator buttons
  */
@@ -372,10 +411,11 @@ operators = document.getElementsByName("operator");
 for (let i = 0; i < operators.length; i++){
     operators[i].addEventListener("click", resetPi, false);
 }
-operators[6].addEventListener("click", addition, false);
-operators[5].addEventListener("click", subtraction, false);
-operators[4].addEventListener("click", multiplication, false);
-operators[3].addEventListener("click", division, false);
+operators[7].addEventListener("click", addition, false);
+operators[6].addEventListener("click", subtraction, false);
+operators[5].addEventListener("click", multiplication, false);
+operators[4].addEventListener("click", division, false);
+operators[3].addEventListener("click", mod, false);
 operators[2].addEventListener("click", radic, false);
 operators[1].addEventListener("click", square, false);
 operators[0].addEventListener("click", percent, false);
