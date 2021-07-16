@@ -73,3 +73,4 @@ Also list if people worked together (pair programmed) on a particular section.
 * Sign(+/-): Clicking the button switches the sign of the number on display to its opposite.
 * Pi: Clicking this button inserts the value pi to the display.
 * Equal: Clicking this button will evaluate the current expression if applicable.
+* Decimal point: Clicking this button adds a decimal point for a float number.
