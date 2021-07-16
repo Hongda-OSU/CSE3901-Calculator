@@ -19,6 +19,7 @@ Also list if people worked together (pair programmed) on a particular section.
 ### Calculator object hidden properties
 * num2Entered checks whether num2 is entered
 * processFinished checks whether current operation is finished
+* percentPressed checks whether the percent button was pressed to evaluate the operation
 * sign 
 
 ### Display
@@ -37,8 +38,10 @@ Also list if people worked together (pair programmed) on a particular section.
 * When equal button is hit, the result of previous operation will be displayed. User could continue operations or hit digit button. Different processes will happen.
     * For example: 9 + 9 = 18, (num1: 18, num2: 9, currentOperator: equal) 
     * 1. If user hit the adddtion button, num2 is expected to continue addtion operation. 
-    * 2. If user hit digit button, for example 3, then num1 will be updated to 3 and new opeartion and num2 is expected to be entered. 
+    * 2. If user hit digit button, for example 3, then num1 will be updated to 3 and new opeartion and num2 is expected to be entered.
 
+* When percent button is hit, num2 will be set equal to (num1 * (num2 / 100)), then operations will proceed as if the user hit equals.
+    * For example: 50 + 20% = 60, (num1: 60, num2: 10, currentOperator: percent)
 
 
 ### Operator buttons

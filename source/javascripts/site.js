@@ -130,7 +130,7 @@ function updateDigits() {
     } else {
         let newVal;
         let currVal = document.getElementsByClassName("calculator_display")[0].innerHTML;
-        if (currVal !== "0" && check) {
+        if (currVal !== "0" && check && !calcState.piPressed) {
             newVal = filterComma(currVal + this.innerHTML);
             document.getElementsByClassName("calculator_display")[0].innerHTML = putComma(newVal);
         }
