@@ -12,12 +12,12 @@ Please list who did what for each part of the project.
 Also list if people worked together (pair programmed) on a particular section.
 
 * Drew Jackson: Implemented all memory buttons, delete buttons and functionality. Created parser function(filterCommas) to convert string with commas to float.
-* Samuel Gernstetter: created first set of event listeners, created first iteration of process function and operation functions, reworked HTML and JS to use some names instead of values, created object to hold calculator state, created square and percent functions
+* Samuel Gernstetter: Created first set of event listeners, created first iteration of process function and operation functions, reworked HTML and JS to use some names instead of values, created object to hold calculator state, created square and percent functions
 * Madison Graziani: Implemented pi, sign change, and mod buttons. Implemented basic updateDigits before operators were added. Changed around/added HTML buttons.
 
 ### Calculator object visible properties
-* num1 for first input
-* num2 is needed for operations to proceed expect Square and Radic
+* num1 is for the first input
+* num2 is needed for operations to proceed except for Square and Radic
 * currentOperator records the current operation
 
 ### Calculator object hidden properties
