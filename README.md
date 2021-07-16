@@ -13,6 +13,10 @@ Also list if people worked together (pair programmed) on a particular section.
 
 * Drew Jackson: Implemented all memory buttons, delete buttons and functionality. Created parser function(filterCommas) to convert string with commas to float.
 * Samuel Gernstetter: created first set of event listeners, created first iteration of process function and operation functions, reworked HTML and JS to use some names instead of values, created object to hold calculator state, created square and percent functions
+* Hongda Lin: Write HTML and CSS for Calculator view. Implement square, radic, clear, decimal, equal buttons. Help to fix display bugs in display functions and opeartor functions. Create constructor functions and prototype chaining to construct calculator object.
+
+### To Grader
+* calcState object is created by prototype chaining.
 
 ### Calculator object visible properties
 * num1 for first input
