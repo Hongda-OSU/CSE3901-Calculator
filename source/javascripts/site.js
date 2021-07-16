@@ -81,7 +81,7 @@ document.getElementsByName("sign")[0].addEventListener("click", updateSign, fals
 //Created 7/15/21 by Madison Graziani
 //      Flips the sign of whichever number is on-screen
 function updateSign(){
-    if(calcState.currentOperator === undefined){
+    if(calcState.currentOperator === undefined || calcState.currentOperator === "equal" || calcState.currentOperator === "square" || calcState.currentOperator === "radic" || calcState.currentOperator === "percent"){
         calcState.num1 = -1 * parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML));
         calcState.num1 = Number(calcState.num1.toPrecision(15))
         console.log(calcState);
