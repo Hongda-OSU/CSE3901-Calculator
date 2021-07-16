@@ -13,7 +13,7 @@ Also list if people worked together (pair programmed) on a particular section.
 
 * Drew Jackson: Implemented all memory buttons, delete buttons and functionality. Created parser function(filterCommas) to convert string with commas to float. Help trouble shoot, suggested fix for pos/neg button bug.
 * Samuel Gernstetter: Created first set of event listeners, created first iteration of process function and operation functions, reworked HTML and JS to use some names instead of values, created object to hold calculator state, created square and percent functions
-* Madison Graziani: Implemented pi, sign change, and mod buttons. Implemented basic updateDigits before operators were added. Changed around/added HTML buttons.
+* Madison Graziani: Implemented pi, sign change, and mod buttons. Implemented basic updateDigits before operators were added. Changed around/added HTML buttons and updated CSS for calculator.
 * Hongda Lin: Write HTML and CSS for Calculator view. Implement square, radic, clear, decimal, equal buttons. Help to fix display bugs in display functions and opeartor functions. Create constructor functions and prototype chaining to construct calculator object.
 
 ### To Grade
