@@ -11,18 +11,13 @@
 Please list who did what for each part of the project.
 Also list if people worked together (pair programmed) on a particular section.
 
-<<<<<<< HEAD
-* Drew Jackson: Implemented all memory buttons, delete buttons and functionality. Created parser function(filterCommas) to convert string with commas to float.
-* Samuel Gernstetter: created first set of event listeners, created first iteration of process function and operation functions, reworked HTML and JS to use some names instead of values, created object to hold calculator state, created square and percent functions
-* Hongda Lin: Write HTML and CSS for Calculator view. Implement square, radic, clear, decimal, equal buttons. Help to fix display bugs in display functions and opeartor functions. Create constructor functions and prototype chaining to construct calculator object.
-
-### To Grader
-* calcState object is created by prototype chaining.
-=======
 * Drew Jackson: Implemented all memory buttons, delete buttons and functionality. Created parser function(filterCommas) to convert string with commas to float. Help trouble shoot, suggested fix for pos/neg button bug.
 * Samuel Gernstetter: Created first set of event listeners, created first iteration of process function and operation functions, reworked HTML and JS to use some names instead of values, created object to hold calculator state, created square and percent functions
 * Madison Graziani: Implemented pi, sign change, and mod buttons. Implemented basic updateDigits before operators were added. Changed around/added HTML buttons.
->>>>>>> 89544f275295da2ea1d3fe88e99a48c1f9a21edd
+* Hongda Lin: Write HTML and CSS for Calculator view. Implement square, radic, clear, decimal, equal buttons. Help to fix display bugs in display functions and opeartor functions. Create constructor functions and prototype chaining to construct calculator object.
+
+### To Grade
+* calcState object is created using prototype chaining
 
 ### Calculator object visible properties
 * num1 is for the first input
@@ -77,9 +72,3 @@ Also list if people worked together (pair programmed) on a particular section.
 * MR: Presents stored value on calculator display and assigns value to appropriate operand.
 * M+: Adds the currently displayed value to the value stored in memory. Does not change display.
 * M-: Subtracts the currently displayed value to the value stored in memory. Does not change display.
-
-### Other buttons
-* Sign(+/-): Clicking the button switches the sign of the number on display to its opposite.
-* Pi: Clicking this button inserts the value pi to the display.
-* Equal: Clicking this button will evaluate the current expression if applicable.
-* Decimal point: Clicking this button adds a decimal point for a float number.
