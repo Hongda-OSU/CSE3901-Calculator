@@ -31,6 +31,11 @@ Also list if people worked together (pair programmed) on a particular section.
 * percentPressed checks whether the percent button was pressed to evaluate the operation
 
 ### Display
+* The display will change in different ways depending on which buttons are pressed. The commas between numbers will adjust to the different numbers that are displayed.
+
+* When the pi button is pressed, if numbers have already been entered beforehand, they will be cleared. New numbers cannot be added until an operator is pressed.
+
+* Unary operators will be evaluated and the results displayed automatically when pressed. Binary operators will be evaluated after either a second operator is pressed or when the equal button is pressed.
 
 ### Some tips for Operations!
 * num2 is needed for operations except for Square and Radic. If num1 is defined but num2 is undefined, the addition operation will not proceed until num2 is entered.  
@@ -51,13 +56,13 @@ Also list if people worked together (pair programmed) on a particular section.
 * When percent button is hit, num2 will be set equal to (num1 * (num2 / 100)), then operations will proceed as if the user hit equals.
     * For example: 50 + 20% = 60, (num1: 60, num2: 10, currentOperator: percent)
 
-
 ### Operator buttons
 * Addition: click Addition button will update num1 to num1+num2 and display num1 to screen.
 * Subtraction: click Subtraction button will update num1 to num1-num2 and display num1 to screen.
 * Multiplication: click Multiplication button will update num1 to num1*num2 and display num1 to screen.
 * Division: click MultiplicDivisionation button will update num1 to num1/num2 and display num1 to screen. Note: if num2 is 0 then a window alert will pop up and clear function will execute. The precision is set to 15.
-* Module: click Module button will update num1 to num1%num2 and display num1 to screen.
+* Modulo: click Modulo button will update num1 to num1%num2 and display num1 to screen.
+* Percent: clicking the Percent button will update num1 to num1 * (num2 / 100)
 * Square: click Square button will update current displayed number to ^2, the number will keep updating when user click multiple times.
 * Radic: click Radic button will update current displayed number to sqrt, the number will keep updating when user click multiple times. Note: if num1 or num2 is negative then a window alert will pop up and clear function will execute.
 
