@@ -248,6 +248,9 @@ function process() {
 //  Created on 7/9/21 by Samuel Gernstetter
 //  Edited by Hongda Lin on 7/10/21
 //      fix additional click on operations buttons that execute process()
+/*
+    processes the current operation, if any, then sets the operator to the pressed button
+ */
 function addition() {
     if(!calcState.processFinished){
         process();
@@ -332,6 +335,9 @@ function square() {
     console.log(calcState);
 }
 // Created 7/15/21 by Samuel Gernstetter
+/*
+    sets percentPressed and process the current operation as if equals was pressed
+ */
 function percent() {
     calcState.percentPressed = true;
     if (!calcState.processFinished) {
@@ -364,6 +370,9 @@ function equal(){
 //      -Added listener to reset pi boolean
 //  Edited 7/15/21 by Samuel Gernstetter
 //      add modulo button
+/*
+    creates event listeners for the operator buttons
+ */
 operators = document.getElementsByName("operator");
 for (let i = 0; i < operators.length; i++){
     operators[i].addEventListener("click", resetPi, false);
