@@ -1,14 +1,15 @@
-// Created 7/8/21 by Samuel Gernstetter
-//  Edited 7/10/21 by Samuel Gernstetter
-//      use object instead of global variables
-//  Edited 7/10/21 by Hongda Lin
-//      add two properties num2Entered and processFinished to solve display problem
-// Edited 7/15/21 by Hongda Lin
-//      create Calculator constructor function and Condition constructor function to generate object calcState using prototype chaining
-//Edited 7/15/21 by Madison Graziani
-//      added piPressed boolean to Condition()
-//  Edited 7/15/21 by Samuel Gernstetter
-//      add percentPressed boolean to Condition()
+/* Created 7/8/21 by Samuel Gernstetter
+   Edited 7/10/21 by Samuel Gernstetter
+        use object instead of global variables
+   Edited 7/10/21 by Hongda Lin
+        add two properties num2Entered and processFinished to solve display problem
+   Edited 7/15/21 by Hongda Lin
+        create Calculator constructor function and Condition constructor function to generate object calcState using prototype chaining
+   Edited 7/15/21 by Madison Graziani
+        added piPressed boolean to Condition()
+   Edited 7/15/21 by Samuel Gernstetter
+        add percentPressed boolean to Condition()
+ */
 function Calculator(){
     this.num1 = undefined;
     this.num2 = undefined;
@@ -38,14 +39,15 @@ constants = {
 
 /*
     give each digit button an event listener to update screen
- */
-//Created on ___ by Hongda Lin
-//Edited 7/9/21 by Madison Graziani
-// Created on 7/9/21 by Hongda Lin
-// Edited 7/9/21 by Madison Graziani
-//   -Changed second parameter
-//  Edited 7/10/21 by Samuel Gernstetter
-//      use name instead of class
+
+  Created on ___ by Hongda Lin
+  Edited 7/9/21 by Madison Graziani
+  Created on 7/9/21 by Hongda Lin
+  Edited 7/9/21 by Madison Graziani
+     -Changed second parameter
+  Edited 7/10/21 by Samuel Gernstetter
+      use name instead of class
+*/
 digits = document.getElementsByName("digit");
 for (let i = 0; i < digits.length; i++){
     digits[i].addEventListener("click", updateDigits, false);
@@ -149,30 +151,23 @@ function updateDigits() {
  */
 function display_to_float() {
     let display = document.getElementsByClassName("calculator_display")[0].innerHTML;
-    display = display.replace(/,/g, "");
+    display = filterComma(display);
     return parseFloat(display);
 }
 
-/*
-    @param: val
-    @return: string
-    remove the commas in val
- */
-// Created on 7/9/21 by Drew Jackson
-// Edited by Hongda Lin 7/10/21
+/* Created on 7/9/21 by Drew Jackson
+   Edited by Hongda Lin 7/10/21
+*/
 function filterComma(val){
     return val.replace(/,/g, "");
 }
 
-/*
-    @param: val
-    @return: string
-    add commas to val
- */
-// Created on 7/10/21 by Madison Graziani
-// Edited by Hongda Lin 7/10/21
-// Edited by Hongda Lin 7/12/21
-//      change the function so the decimal part don't get commas
+/* Created on 7/10/21 by Madison Graziani
+   Edited by Hongda Lin 7/10/21
+   Edited by Hongda Lin 7/12/21
+      change the function so the decimal part don't get commas
+*/
+
 function putComma(val){
     let result = Array.from(val);
     let index;
@@ -455,7 +450,7 @@ function accessMemory(button){
 
 /*Created by Drew Jackson 7/9/21
     Store the number displayed on screen to memory
- */
+*/
 function memory_store(){
         memory.digits = display_to_float()
         console.log(memory.digits)
@@ -534,7 +529,7 @@ function deleteAction(){
     document.getElementsByName("display")[0].innerHTML = display
     if (calcState.currentOperator === undefined || (calcState.currentOperator == "equal" && calcState.processFinished)){
          calcState.num1 = display_to_float();
-     }
+    }
     else{
         calcState.num2 = display_to_float();
         calcState.num2Entered = true;
