@@ -517,12 +517,18 @@ document.getElementsByName("display")[1].addEventListener("click", deleteAction,
     Deletes the trailing number on the display, and removes trailing commas
  */
 function deleteAction(){
-    //delete trailing number from display value
     let display = document.getElementsByName("display")[0].innerHTML;
-    display = display.substring(0,display.length-1);
 
-    //format new display value with appropriate commas
-    display = putComma(parseFloat(filterComma(display)).toString());
+    if(display.length == 1){
+        display = "0";
+    }
+    else {
+        //delete trailing number from display value
+        display = display.substring(0, display.length - 1);
+
+        //format new display value with appropriate commas
+        display = putComma(parseFloat(filterComma(display)).toString());
+    }
 
     //update values
     document.getElementsByName("display")[0].innerHTML = display
