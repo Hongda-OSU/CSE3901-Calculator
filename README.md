@@ -37,6 +37,10 @@ Also list if people worked together (pair programmed) on a particular section.
 
 * Unary operators will be evaluated and the results displayed automatically when pressed. Binary operators will be evaluated after either a second operator is pressed or when the equal button is pressed.
 
+* The delete button will delete the right-most number from the display.
+
+* The memory buttons will also update the display in a multitude of ways.
+
 ### Some tips for Operations!
 * num2 is needed for operations except for Square and Radic. If num1 is defined but num2 is undefined, the addition operation will not proceed until num2 is entered.  
     * For example: User enters 10 for num1 and hits addition button, if user hits addition button again, the addition operation won't proceed.
