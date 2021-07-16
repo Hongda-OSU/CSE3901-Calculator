@@ -82,16 +82,34 @@ document.getElementsByName("sign")[0].addEventListener("click", updateSign, fals
 //      Flips the sign of whichever number is on-screen
 function updateSign(){
     if(calcState.currentOperator === undefined){
-        calcState.num1 = -1 * parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML));
-        calcState.num1 = Number(calcState.num1.toPrecision(15))
+        calcState.num1 = parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML));
+        if (calcState.num1 > 0)
+        {
+            calcState.num1 = putComma(calcState.num1.toString());
+            calcState.num1 = "-" + calcState.num1;
+            document.getElementsByClassName("calculator_display")[0].innerHTML = calcState.num1;
+        }else if(calcState.num1 < 0){
+            calcState.num1 = calcState.num1.toString();
+            calcState.num1.slice(1,calcState.num1.length);
+            document.getElementsByClassName("calculator_display")[0].innerHTML = putComma(calcState.num1);
+        }
+        calcState.num1 = parseFloat(calcState.num1)
         console.log(calcState);
-        document.getElementsByClassName("calculator_display")[0].innerHTML = putComma(calcState.num1.toString());
     }
     else if(calcState.currentOperator !== undefined && calcState.num2Entered){
-        calcState.num2 = -1 * parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML));
-        calcState.num2 = Number(calcState.num2.toPrecision(15))
+        calcState.num2 = parseFloat(filterComma(document.getElementsByClassName("calculator_display")[0].innerHTML));
+        if (calcState.num2 > 0)
+        {
+            calcState.num2 = putComma(calcState.num2.toString());
+            calcState.num2 = "-" + calcState.num2;
+            document.getElementsByClassName("calculator_display")[0].innerHTML = calcState.num2;
+        }else if(calcState.num2 < 0){
+            calcState.num2 = calcState.num2.toString();
+            calcState.num2.slice(1,calcState.num2.length);
+            document.getElementsByClassName("calculator_display")[0].innerHTML = putComma(calcState.num2);
+        }
+        calcState.num2 = parseFloat(calcState.num2)
         console.log(calcState);
-        document.getElementsByClassName("calculator_display")[0].innerHTML = putComma(calcState.num2.toString());
     }
 }
 
