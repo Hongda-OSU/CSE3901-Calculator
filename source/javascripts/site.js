@@ -110,6 +110,7 @@ function updateDigits() {
         num2 is going to be entered and process() is ready be evaluated again
         2. after user enter the first digit for num2, update screen like update num1
         3. If user click the equal button and then click digit button, num1 needs to be reset to initial value
+        4. The same logic for rule3 is also applied to square, radic and percent button
      */
     let check = true;
     if (calcState.currentOperator === "equal" || calcState.currentOperator === "square" || calcState.currentOperator === "radic" || calcState.currentOperator === "percent"){
@@ -183,7 +184,15 @@ function putComma(val){
     return result.join("");
 }
 
-//TODO add comments, author and algorithm in block
+/*
+    1. When num1 is undefined, user should enter the digit for num1 and hit the operation button, update num1
+    2. When num1 is defined and process() is executed, it means user have enter digit for num2, update num2 and update num1 base on currentOperator
+    3. After update the display screen by num1, reset num2 to default value
+    4. For division, if num2 is 0, pop a window alert message.
+ */
+//  Created on 7/9/21 by Samuel Gernstetter
+//  Edited by Hongda Lin on 7/10/21
+//      some modifications base on the updates in operation functions
 //  Edited 7/15/21 by Samuel Gernstetter
 //      add percent functionality
 function process() {
@@ -229,10 +238,14 @@ function process() {
     1. when user click operation button, expect num2 is undefined and ready to be entered
     2. after execute process(), change processFinished to true, unless num2 is entered,
     the process() will not be execute, but the currentOperator will change
+    3. The logic is applied to addition, subtraction, multiplication and division function
  */
 //  Created on 7/9/21 by Samuel Gernstetter
 //  Edited by Hongda Lin on 7/10/21
 //      fix additional click on operations buttons that execute process()
+/*
+    processes the current operation, if any, then sets the operator to the pressed button
+ */
 function addition() {
     if(!calcState.processFinished){
         process();
@@ -270,7 +283,9 @@ function division() {
     console.log(calcState);
 }
 /*
-    Same logic as square button
+    1. When user enter a number and click radic button, if num1 is undefined, then update num1, set currentOperator to radic
+    2. If num1 is defined but num2 is not defined, it's likely user is doing other operation like 9+sqrt(2), only update num2
+    3. If user enter negative for radic, pop a window alert message.
  */
 // Created 7/13/21 by Samuel Gernstetter
 // Edited 7/14/21 by Hongda Lin
@@ -315,6 +330,9 @@ function square() {
     console.log(calcState);
 }
 // Created 7/15/21 by Samuel Gernstetter
+/*
+    sets percentPressed and process the current operation as if equals was pressed
+ */
 function percent() {
     calcState.percentPressed = true;
     if (!calcState.processFinished) {
@@ -325,6 +343,10 @@ function percent() {
     calcState.num2Entered = false;
     console.log(calcState);
 }
+
+/*
+    when user click equal button, execute process function with currentOperator and display result.
+ */
 // Created 7/13/21 by Hongda Lin
 function equal(){
     if(!calcState.processFinished){
@@ -343,6 +365,9 @@ function equal(){
 //      -Added listener to reset pi boolean
 //  Edited 7/15/21 by Samuel Gernstetter
 //      add modulo button
+/*
+    creates event listeners for the operator buttons
+ */
 operators = document.getElementsByName("operator");
 for (let i = 0; i < operators.length; i++){
     operators[i].addEventListener("click", resetPi, false);
@@ -355,10 +380,6 @@ operators[2].addEventListener("click", radic, false);
 operators[1].addEventListener("click", square, false);
 operators[0].addEventListener("click", percent, false);
 
-// Created 7/10/21 by Hongda Lin
-/*
-operators[0].addEventListener("click", module, false);
- */
 
 // Created 7/13/21 by Hongda Lin
 // Implement equal button
