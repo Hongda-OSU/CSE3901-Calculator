@@ -1,8 +1,5 @@
-# Project 5
-### JavaScript Calculator
+# JavaScript Calculator
 ![Sam3](https://user-images.githubusercontent.com/67817916/147014955-b95175ec-c9ec-4abd-afd8-df3745b233fb.gif)
-![Sam4](https://user-images.githubusercontent.com/67817916/147014959-59c62b9d-a25a-4265-89f2-9465ccbba34e.gif)
-
 
 ### Roles
 * Overall Project Manager: Drew Jackson
